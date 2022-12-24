@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PartnerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension" owl="1"> 
+        <xpath expr="//tr" position="replace"> 
+            <tr t-attf-class="partner-line {{highlight}}" t-att-data-id="props.partner.id"
+                t-on-click="() => this.props.onClickPartner(props.partner)">
+                <!-- <td hidden="true">
+                    <t t-esc="props.partner.name or ''" />
+                    <span t-if="highlight">
+                        <br/><button id="edit-client-button" class="edit-client-button" t-on-click.stop="trigger('click-edit')">EDIT</button>
+                    </span>
+                </td> -->
+                <td>                    
+                    <div>
+                        <t t-esc="props.partner.name or ''" /> - 
+                        <t t-esc="props.partner.vat or ''" />
+                    </div>
+                    <!-- <span t-if="highlight">
+                        <br/><button class="edit-client-button" t-on-click="_clickEditPersonalizado">EDIT</button>
+                    </span> -->
+                    <div class="company-field">
+                        <t t-esc="props.partner.parent_name or ''" />
+                    </div>
+                    <div t-if="_isPartnerSelected" class="unselect-tag">
+                        <i class="fa fa-times"></i>
+                        <span> unselect </span>
+                    </div>
+                </td>
+                <td t-if="!env.isMobile">
+                    <span t-if="props.partner.street"><strong><t t-esc="props.partner.street"/></strong> *** </span>
+                    <span t-if="props.partner.l10n_pe_district"><t t-esc="props.partner.l10n_pe_district[1]"/>, </span> 
+                    <span t-if="props.partner.city_id"><t t-esc="props.partner.city_id[1]"/>, </span>
+                    <span t-if="props.partner.city &amp;&amp; (props.partner.country_id[1] != 'Perú')"><t t-esc="props.partner.city"/>, </span>
+                    <span t-if="props.partner.state_id"><t t-esc="props.partner.state_id[1]"/> </span>
+                    <span t-if="props.partner.country_id"><t t-esc="props.partner.country_id[1]"/> </span>
+                    <span t-if="props.partner.zip">- <t t-esc="props.partner.zip"/> </span>
+                </td>
+                <td class="partner-line-email" t-if="!env.isMobile" style="width: 130px;">
+                    <div t-if="props.partner.phone">
+                        <i class="fa fa-phone fa-fw"/><t t-esc="props.partner.phone"/>
+                    </div>
+                    <div t-if="props.partner.mobile">
+                        <i class="fa fa-mobile fa-lg fa-fw"/><t t-esc="props.partner.mobile"/>
+                    </div>
+                    <div t-if="props.partner.email" class="email-field">
+                        <i class="fa fa-paper-plane-o fa-fw"/><t t-esc="props.partner.email" />
+                    </div>
+                </td>
+                <td t-if="env.isMobile">
+                    <t t-esc="props.partner.zip or ''" />
+                    <span t-if="highlight"><br/></span>
+                </td>
+                <td class="partner-line-balance" t-if="props.isBalanceDisplayed"></td>
+                <td>
+                    <button class="edit-partner-button" t-on-click.stop="() => props.onClickEdit(props.partner)">DETAILS</button>
+                </td>
+                <td class="partner-line-last-column-placeholder oe_invisible"></td>
+            </tr>
+        </xpath>
+    </t>
+</templates>
