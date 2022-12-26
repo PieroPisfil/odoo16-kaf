@@ -4,20 +4,11 @@
         <xpath expr="//tr" position="replace"> 
             <tr t-attf-class="partner-line {{highlight}}" t-att-data-id="props.partner.id"
                 t-on-click="() => this.props.onClickPartner(props.partner)">
-                <!-- <td hidden="true">
-                    <t t-esc="props.partner.name or ''" />
-                    <span t-if="highlight">
-                        <br/><button id="edit-client-button" class="edit-client-button" t-on-click.stop="trigger('click-edit')">EDIT</button>
-                    </span>
-                </td> -->
                 <td>                    
                     <div>
                         <t t-esc="props.partner.name or ''" /> - 
                         <t t-esc="props.partner.vat or ''" />
                     </div>
-                    <!-- <span t-if="highlight">
-                        <br/><button class="edit-client-button" t-on-click="_clickEditPersonalizado">EDIT</button>
-                    </span> -->
                     <div class="company-field">
                         <t t-esc="props.partner.parent_name or ''" />
                     </div>

@@ -20,17 +20,17 @@
         'views/res_company_view.xml',
         'data/res_country_data.xml',
     ],
-    'assets': {
-        'point_of_sale.assets': [
-            'kaf-contacts-base/static/src/js/models.js',
-            'kaf-contacts-base/static/src/js/Screens/**/*',
-            'kaf-contacts-base/static/src/js/Screens/PartnerListSreen/*',
-        ],
-        'web.assets_qweb': [
-            'kaf-contacts-base/static/src/xml/**',
-            'kaf-contacts-base/static/src/xml/Screens/**/*',
-        ],
-    },
+    # 'assets': {
+    #     'point_of_sale.assets': [
+    #         'kaf-contacts-base/static/src/js/models.js',
+    #         'kaf-contacts-base/static/src/js/Screens/**/*',
+    #         'kaf-contacts-base/static/src/js/Screens/PartnerListSreen/*',
+    #     ],
+    #     'web.assets_qweb': [
+    #         'kaf-contacts-base/static/src/xml/**',
+    #         'kaf-contacts-base/static/src/xml/Screens/**/*',
+    #     ],
+    # },
     'license': 'LGPL-3',
     'installable': True,
     'auto_install': False,

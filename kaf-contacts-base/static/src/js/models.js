@@ -3,11 +3,11 @@ odoo.define('kaf-contacts-base.models', function(require) {
   
 var models = require('point_of_sale.models');
 var OrderSuper = models.Order;
-var _posModelSuper = models.PosModel.prototype;
+//var _posModelSuper = models.PosModel.prototype;
 
-models.load_fields("res.company", ["street_name"]);
-models.load_fields("res.partner", ["l10n_latam_identification_type_id","city_id","l10n_pe_district","state_sunat","condition_sunat","company_type"]);
-models.load_fields("res.currency", ["currency_unit_label"]);
+// models.load_fields("res.company", ["street_name"]);
+// models.load_fields("res.partner", ["l10n_latam_identification_type_id","city_id","l10n_pe_district","state_sunat","condition_sunat","company_type"]);
+// models.load_fields("res.currency", ["currency_unit_label"]);
 
 models.Order = models.Order.extend({
     // initialize: function (attributes, options) {
@@ -51,16 +51,16 @@ models.load_models([{
     },
 }]);
 
-models.PosModel = models.PosModel.extend({
-    initialize: function (session, attributes) {
-        var contact_model = _.find(this.models,function(model){
-            return model.model === 'res.partner';
-        });
-        contact_model.fields.push('l10n_latam_identification_type_id');
-        contact_model.fields.push('city_id');
-        contact_model.fields.push('l10n_pe_district');
-        return _posModelSuper.initialize.call(this,session,attributes);
-    }
-});
+// models.PosModel = models.PosModel.extend({
+//     initialize: function (session, attributes) {
+//         var contact_model = _.find(this.models,function(model){
+//             return model.model === 'res.partner';
+//         });
+//         contact_model.fields.push('l10n_latam_identification_type_id');
+//         contact_model.fields.push('city_id');
+//         contact_model.fields.push('l10n_pe_district');
+//         return _posModelSuper.initialize.call(this,session,attributes);
+//     }
+// });
 
 })
