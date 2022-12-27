@@ -4,15 +4,12 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
     const PartnerDetailsEdit = require('point_of_sale.PartnerDetailsEdit');
     const Registries = require('point_of_sale.Registries');
 	const rpc = require('web.rpc');
-//    const session = require('web.session');
-//    const core = require('web.core');
-//    const _t = core._t;
-//    const QWeb = core.qweb;
+	const { onMounted, onWillUnmount } = owl;
 
     const PartnerDetailsEditVat = PartnerDetailsEdit =>
         class extends PartnerDetailsEdit {
-            constructor() {
-	            super(...arguments);
+            setup() {
+	            super.setup();
 				this.intFields = ['country_id', 'state_id', 'property_product_pricelist','l10n_latam_identification_type_id','city_id','l10n_pe_district'];
 				const partner = this.props.partner;
 				this.changes = {
@@ -24,11 +21,17 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 				};
 				if (!partner.property_product_pricelist)
 					this.changes['property_product_pricelist'] = this.env.pos.default_pricelist.id;
+
+				onMounted(() => {
+					this.iniciarDatos_vat_pe();
+					this.env.bus.on('save-partner', this, this.saveChanges);
+				});
+	
+				onWillUnmount(() => {
+					this.env.bus.off('save-partner', this);
+				});
 	        }
-	        mounted() {
-	        	super.mounted();
-				this.iniciarDatos_vat_pe();
-	        }
+
 	        iniciarDatos_vat_pe(){
 	        	var self = this;
 				$('.busqueda-datos').off('click', '');

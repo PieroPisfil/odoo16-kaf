@@ -12,18 +12,30 @@ class PosSession(models.Model):
     def _pos_ui_models_to_load(self):
         models_to_load = super(PosSession, self)._pos_ui_models_to_load()
         new_models = [
-            #"l10n_latam.identification.type",
+            "l10n_latam.identification.type",
             "res.city",
-            #"l10n_pe.res.city.district",
+            "l10n_pe.res.city.district",
             ]
         for new_model in new_models:
             models_to_load.append(new_model)
         return models_to_load
     
+    def _loader_params_l10n_latam_identification_type(self):
+        return {'search_params': {'domain': [], 'fields': ["name",]}}
+    def _get_pos_ui_l10n_latam_identification_type(self, params):
+        return self.env['l10n_latam.identification.type'].search_read(**params['search_params'])
+    
     def _loader_params_res_city(self):
-        return {'search_params': {'domain': [], 'fields': ["name","state_id"]}}
+        return {'search_params': {'domain': [], 'fields': ["name","state_id",]}}
+    def _get_pos_ui_res_city(self, params):
+        return self.env['res.city'].search_read(**params['search_params'])
 
-######## Cargar campos de modelos ya subidos en el codigo original de Odoo###################
+    def _loader_params_l10n_pe_res_city_district(self):
+        return {'search_params': {'domain': [], 'fields': ["name","city_id",]}}
+    def _get_pos_ui_l10n_pe_res_city_district(self, params):
+        return self.env['l10n_pe.res.city.district'].search_read(**params['search_params'])
+
+######## Cargar campos de modelos ya subidos en el codigo original de Odoo ###################
 
     def _loader_params_res_company(self):
         res = super(PosSession, self)._loader_params_res_company()

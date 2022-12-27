@@ -2,8 +2,39 @@
 <templates id="point_of_sale.template" xml:space="preserve">
     
     <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
-        <xpath expr="//section[hasclass('partner-details')]" position="replace">
-            <!-- <input t-att-src="props.partner.l10n_latam_identification_type_id || ''"/> -->
+        <xpath expr="//input[hasclass('partner-name')]" position="before">
+            <div>
+                <div>
+                    <h3 class='label'># Documento DNI/RUC</h3>
+                    <select class='detail l10n_latam_identification_type_id' style="background: gold;width:6rem;" name='l10n_latam_identification_type_id' t-on-change="captureChange" >
+                        <option value="">None</option>
+                        <t t-foreach='env.pos.doc_types' t-as='doc_type' t-key='doc_type.id'>
+                            <option t-att-value="doc_type.id" t-att-selected="props.partner.l10n_latam_identification_type_id ? ((doc_type.id === props.partner.l10n_latam_identification_type_id[0]) ? true : undefined) : undefined">
+                                <t t-esc='doc_type.name'/>
+                            </option>
+                        </t> 
+                    </select>
+                    <!-- <span style="margin-left:10px;"/>
+                    <span class='client-detail'>
+                        <input class='detail vat' id="vat" style="background: #ffec84;" name='vat' t-att-value='props.partner.vat || ""' t-on-change="captureChange"></input>
+                    </span>
+                    <span class='edit-buttons' id='busqueda-boton' style="position:relative;right: 0px;top:0px;">
+                        <div class='button busqueda-datos' id="busqueda-datos"><i class='fa fa-search' /></div>
+                    </span> 
+                    <span class='edit-buttons' id='busqueda-boton-2' style="position:relative;right: 0px;top:0px;" hidden="true">
+                        <div class='button busqueda-2' t-on-click='_busquedaActualizar'><i class='fa fa-archive' /></div>
+                    </span> 
+                    <br/>    
+                    <div class="partner-detail" style="width:auto">                
+                        <span class="label" style="width:auto">Tipo Contacto</span>
+                        <input class="detail client-type" name="company_type" readonly="true" t-att-value="props.partner.company_type || ''" style="border-block:none;width:auto;background:content-box;"/>              
+                    </div>   -->
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>
+        <!-- <xpath expr="//section[hasclass('partner-details')]" position="replace">
             <section class="partner-details edit">
                 <div class="partner-picture">
                     <t t-if="partnerImageUrl">
@@ -56,7 +87,7 @@
                         </div>
                         <div class="partner-detail">
                             <span class="label">Country</span>
-                            <select class="detail client-address-country needsclick" name="country_id"
+                            <select class="detail client-address-country" name="country_id"
                                 t-on-change="captureChange">
                                 <option value="">None</option>
                                 <t t-foreach="env.pos.countries" t-as="country" t-key="country.id">
@@ -69,7 +100,7 @@
                         </div>
                         <div class="partner-detail">
                             <span class="label">Departamento</span>
-                            <select class="detail client-address-states needsclick" name="state_id" id="client-address-states"
+                            <select class="detail client-address-states" name="state_id" id="client-address-states"
                                 t-on-change="captureChange">
                                 <option value="">None</option>
                                 <t t-foreach="env.pos.states" t-as="state" t-key="state.id">
@@ -84,7 +115,7 @@
                         </div>
                         <div class="partner-detail" id='client-address-provincia'>
                             <span class="label">Provincia</span>
-                            <select class="detail client-address-provincia needsclick" name="city_id"
+                            <select class="detail client-address-provincia" name="city_id"
                                     t-on-change="captureChange">
                                 <option value="">None</option>
                                 <t t-foreach="env.pos.cities_id" t-as="city_id" t-key="city_id.id">
@@ -104,7 +135,7 @@
                         </div>
                         <div class="partner-detail" id='client-address-distrito'>
                             <span class="label">Distrito</span>
-                            <select class="detail client-address-distrito needsclick" name="l10n_pe_district"
+                            <select class="detail client-address-distrito" name="l10n_pe_district"
                                     t-on-change="captureChange">
                                 <option value="">None</option>
                                 <t t-foreach="env.pos.districts" t-as="district" t-key="district.id">
@@ -126,7 +157,7 @@
                     <div class="partner-details-right">
                         <div class="partner-detail" hidden="true">
                             <span class="label">Language</span>
-                            <select class="detail client-lang needsclick" name="lang"
+                            <select class="detail client-lang" name="lang"
                                     t-on-change="captureChange">
                                 <t t-foreach="env.pos.langs" t-as="lang" t-key="lang.id">
                                     <option t-att-value="lang.code"
@@ -187,7 +218,6 @@
                     </div>
                 </div>
             </section>
-        </xpath>
-    </t>
-</templates>
+        </xpath> -->
+
 

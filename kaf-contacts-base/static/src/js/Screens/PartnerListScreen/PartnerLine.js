@@ -1,16 +1,16 @@
-odoo.define('kaf-contacts-base.ClientLine', function(require) {
+odoo.define('kaf-contacts-base.PartnerLine', function(require) {
     'use strict';
 
-    const ClientLine = require('point_of_sale.ClientLine');
+    const PartnerLine = require('point_of_sale.PartnerLine');
     const Registries = require('point_of_sale.Registries');
 
-    const ClientLineKaf = ClientLine => 
-        class extends ClientLine {
+    const PartnerLineKaf = PartnerLine => 
+        class extends PartnerLine {
             _clickEditPersonalizado() {
                 $('#edit-client-button').click()
                 setTimeout(() => {
-                    $('#boton-guardar-reemplazo').attr('hidden', true)
-                    $('#boton-guardar-original').attr('hidden', false)
+                    // $('#boton-guardar-reemplazo').attr('hidden', true)
+                    // $('#boton-guardar-original').attr('hidden', false)
                     $('.client-name').attr('readonly', true)
                     $('#vat').attr('readonly', true)
                     $("select[name='l10n_latam_identification_type_id']").attr('disabled', true) 
@@ -23,7 +23,7 @@ odoo.define('kaf-contacts-base.ClientLine', function(require) {
             }
         }
 
-    Registries.Component.extend(ClientLine,ClientLineKaf);
+    Registries.Component.extend(PartnerLine,PartnerLineKaf);
 
-    return ClientLine;
+    return PartnerLine;
 });
