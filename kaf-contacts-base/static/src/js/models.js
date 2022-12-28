@@ -8,6 +8,8 @@ var Registries = require('point_of_sale.Registries');
     const PosGlobalStateKaf = (PosGlobalState) => class PosGlobalStateKaf extends PosGlobalState {
         async _processData(loadedData) {
             this.doc_types = loadedData['l10n_latam.identification.type'];
+            this.cities_id = loadedData['res.city'];
+            this.districts = loadedData['l10n_pe.res.city.district'];
             super._processData(...arguments);
         }
     }

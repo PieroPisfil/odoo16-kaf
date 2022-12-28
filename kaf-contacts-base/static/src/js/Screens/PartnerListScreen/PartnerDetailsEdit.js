@@ -36,20 +36,28 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 	        	var self = this;
 				$('.busqueda-datos').off('click', '');
 		        $('.busqueda-datos').on('click', self._busquedaContacto.bind(self));
-				//this.id_pais = $('.client-address-country').val();
-				this.id_pais = this.changes.country_id
+				this.id_pais = this.changes.country_id ? parseInt(this.changes.country_id) : parseInt(this.env.pos.company.country_id)
 				this._hideshowPeru();
 				this.id_departamento = this.changes.state_id;
-				this.id_provincia = this.changes.city_id;
+				this.id_provincia = this.changes.city_id || false;
+				this.id_distrito = this.changes.l10n_pe_district || false;
+				this.id_doctype = this.changes.l10n_latam_identification_type_id;
 				this._changeTypeIdentification();
-		        //$('.client-address-country').off('change', '');
 		        $('.client-address-country').on('change', self._changeCountry.bind(self));
-				//$('.client-address-states').off('change', '');
 		        $('.client-address-states').on('change', self._changeState.bind(self));
-				//$('.client-address-provincia').off('change', '');
 		        $('.client-address-provincia').on('change', self._changeProvincia.bind(self));
+				$('.client-address-distrito').on('change', self._changeDistrito.bind(self));
 
 				$('.l10n_latam_identification_type_id').on('change', self._changeTypeIdentification.bind(self));
+
+				$('#vat').on('change', self._changeVat.bind(self));
+				$('#street').on('change', self._changeStreet.bind(self));
+				$('#name').on('change', self._changeName.bind(self));
+				$('input[name="email"]').on('change', self._changeEmail.bind(self));
+				$('input[name="phone"]').on('change', self._changePhone.bind(self));
+				$('input[name="barcode"]').on('change', self._changeBarcode.bind(self));
+
+				this.render(true);
 			}
 			_hideshowPeru(){
 				let div = $(".client-address-country")[0];
@@ -63,10 +71,8 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 				  $('#client-address-external-city').show();
 		        }
 			}
+
 			_changeCountry() {
-		        if (!$(".client-address-country").val()) {
-		            return;
-		        }
 				this.id_pais = this.changes.country_id
 				this._hideshowPeru();
 				$('#client-address-states').val('')
@@ -75,32 +81,43 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 				this.changes['city_id'] = ""
 				$('.client-address-distrito').val('')
 				this.changes['l10n_pe_district'] = ""
-				this.render();
+				this.render(true);
 		    }
-			obtener_id_pais() {	
-				return this.id_pais
+			getIdPais() {	
+				return parseInt(this.id_pais) ;
 			}
+			
 			_changeState() {
 				this.id_departamento = this.changes.state_id;
 				$('.client-address-provincia').val('')
 				this.changes['city_id'] = ""
+				this.id_provincia = this.changes.city_id;
 				$('.client-address-distrito').val('')
 				this.changes['l10n_pe_district'] = ""
-				this.render();
+				this.id_distrito = this.changes.l10n_pe_district;
+				this.render(true);
 		    }
-			get obtener_id_state() {
-				return this.id_departamento;
+			getIdState() {
+				return parseInt(this.id_departamento);
 			}
 			_changeProvincia() {	
 				this.id_provincia = this.changes.city_id;
 				$('.client-address-distrito').val('')
 				this.changes['l10n_pe_district'] = ""
-				this.render();
+				this.id_distrito = this.changes.l10n_pe_district;
+				this.render(true);
 		    }
-			get obtener_id_provincia() {
-				return this.id_provincia
+			getIdProvincia() {
+				return parseInt(this.id_provincia);
+			}
+			_changeDistrito(){
+				this.id_distrito = this.changes.l10n_pe_district;
+			}
+			getIdDistrito(){
+				return parseInt(this.id_distrito);
 			}
 			_changeTypeIdentification(){
+				this.id_doctype = this.changes.l10n_latam_identification_type_id;
 				let div2 = $(".l10n_latam_identification_type_id")[0];
 				let tipo_doc = div2.options[div2.selectedIndex].text
 				$('#busqueda-boton').show();
@@ -119,15 +136,100 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 					$('#state-sunat-div').hide();
 					$('#condition-sunat-div').hide();
 				}
-				this.render();
+				this.render(true);
 			}
+			getIdDocType(){
+				return parseInt(this.id_doctype);
+			}
+
+			_changeVat(){
+				let inputVat = $("#vat").val();
+				this.vat = inputVat;
+			}
+			getVat(){
+				return this.vat;
+			}
+
+			_changeStreet(){
+				let inpurStreet = $("#street").val();
+				this.street = inpurStreet;
+			}
+			getStreet(){
+				return this.street;
+			}
+
+			_changeName(){
+				let inputName = $("#name").val();
+				this.name = inputName;
+			}
+			getName(){
+				return this.name;
+			}
+			
+			_changeEmail(){
+				let inputEmail = $('input[name="email"]').val();
+				this.email = inputEmail;
+			}
+			getEmail(){
+				return this.email;
+			}
+
+			_changePhone(){
+				let inputPhone = $('input[name="phone"]').val();
+				this.phone = inputPhone;
+			}
+			getPhone(){
+				return this.phone;
+			}
+
+			_changeBarcode(){
+				let inputBarcode = $('input[name="barcode"]').val();
+				this.barcode = inputBarcode;
+			}
+			getBarcode(){
+				return this.barcode;
+			}
+
+			_changeCompanyType(){
+				let inputCompanyType = $('input[name="company_type"]').val();
+				this.company_type = inputCompanyType;
+			}
+			getCompanyType(){
+				return this.company_type;
+			}
+
+			_changeZip(){
+				let inputZip = $('input[name="zip"]').val();
+				this.zip = inputZip;
+			}
+			getZip(){
+				return this.zip;
+			}
+
+			_changeStateSunat(){
+				let inputStateSunat = $('input[name="state_sunat"]').val();
+				this.state_sunat = inputStateSunat;
+			}
+			getStateSunat(){
+				return this.state_sunat;
+			}
+
+			_changeConditionSunat(){
+				let inputConditionSunat = $('input[name="condition_sunat"]').val();
+				this.condition_sunat = inputConditionSunat;
+			}
+			getConditionSunat(){
+				return this.condition_sunat;
+			}
+
 			_busquedaActualizar(){
 				let a = this.changes.city_id
 				$(`.client-address-provincia option[value="${a}"]`).attr('selected', 'selected')
 				let b = this.changes.l10n_pe_district;
 				$(`.client-address-distrito option[value="${b}"]`).attr('selected', 'selected')
-				this.render();
+				//this.render(true);
 			}
+
 			_busquedaContacto(){
 				var self = this;
 		        if (!$("#vat").val()) {return;}
@@ -138,10 +240,10 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 				self.changes['vat'] = vat
 				//Filtros necesarios para correcto funcionamiento y no guardar vat repetidos
 				if(tipo_doc == 'VAT' || (tipo_doc == 'RUC' && vat.substr(0,2) == '20')){
-					$('.client-detail input[name="company_type"]').val('company');
+					$('.partner-detail input[name="company_type"]').val('company');
 					self.changes['company_type'] = 'company';
 				} else {
-					$('.client-detail input[name="company_type"]').val('person');
+					$('.partner-detail input[name="company_type"]').val('person');
 					self.changes['company_type'] = 'person';
 				}
                 if(tipo_doc != 'DNI' && tipo_doc !='RUC'){
@@ -166,19 +268,6 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 						return;
 					}
 				}
-				//RESET de TODO
-/* 				let contents = $('.client-details');
-				self.changes['zip'] = null;
-				contents.find('input[name="zip"]').val('');
-				self.changes['city_id'] = null;
-				contents.find('select[name="city_id"]').val('');				
-				self.changes['l10n_pe_district'] = null;
-				contents.find('select[name="l10n_pe_district"]').val('');
-				self.changes['name'] = null;
-				contents.find('input[name="name"]').val('');
-				self.changes['street'] = null;
-				contents.find('input[name="street"]').val(''); */
-				//////////////////////////////////////////////7
 
 				let flag_busqueda = false ;
 				let intervalBusqueda = setInterval(() =>{
@@ -198,7 +287,7 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 			async func_busqueda (tipo_doc, vat) {
 				var self = this
 				let respuesta;
-				let contents = $('.client-details');
+				let contents = $('.partner-details');
 				let parametros = [tipo_doc == "DNI" ? "dni" : "ruc", vat]
 				const response = await rpc.query({
 					model: 'res.partner',
@@ -212,13 +301,6 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 					});
 					return;
 				} else if (response.data) {
-					/* if(!response.data.success) {
-						self.showPopup('ErrorTracebackPopup', {
-							'title': 'Alerta de DATOS!',
-							'body': response.data.message,
-						});
-						return;
-					} */
 
 					self.changes['zip'] = null;
 					contents.find('input[name="zip"]').val('');
@@ -234,20 +316,18 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 					respuesta = response.data.data;
 					contents.find('input[name="name"]').val(respuesta.name);
 					self.changes['name'] = respuesta.name;
+					self._changeName();
 					contents.find('input[name="company_type"]').val(respuesta.company_type);
 					self.changes['company_type'] = respuesta.company_type;
+					self._changeCompanyType();
 					contents.find('input[id="vat"]').val(respuesta.vat);
 					self.changes['vat'] = respuesta.vat;
+					self._changeVat();
 					if (tipo_doc === 'RUC') {
-						contents.find('input[name="state_sunat"]').val(respuesta.state_sunat);
-						self.changes['state_sunat'] = respuesta.state_sunat;
-						contents.find('input[name="condition_sunat"]').val(respuesta.condition_sunat);
-						self.changes['condition_sunat'] = respuesta.condition_sunat;
-						contents.find('input[name="street"]').val(respuesta.street);
-						self.changes['street'] = respuesta.street;
 						if (respuesta.zip){
 							contents.find('input[name="zip"]').val(respuesta.zip);
 							self.changes['zip'] = respuesta.zip;
+							self._changeZip();
 							
 							self.changes['state_id'] = respuesta.state_id;
 							contents.find('select[name="state_id"]').val(respuesta.state_id);
@@ -259,7 +339,17 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 							
 							self.changes['l10n_pe_district'] = respuesta.l10n_pe_district;
 							contents.find('select[name="l10n_pe_district"]').val(respuesta.l10n_pe_district);
+							self._changeDistrito();
 						}
+						contents.find('input[name="state_sunat"]').val(respuesta.state_sunat);
+						self.changes['state_sunat'] = respuesta.state_sunat;
+						self._changeStateSunat();
+						contents.find('input[name="condition_sunat"]').val(respuesta.condition_sunat);
+						self.changes['condition_sunat'] = respuesta.condition_sunat;
+						self._changeConditionSunat();
+						contents.find('input[name="street"]').val(respuesta.street);
+						self.changes['street'] = respuesta.street;
+						self._changeStreet();
 						//Algunas advertencias
 						let state_sunat = self.changes['state_sunat']
 						if(state_sunat == 'ACTIVO') {

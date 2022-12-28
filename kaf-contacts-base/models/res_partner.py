@@ -381,23 +381,43 @@ class ResPartner(models.Model):
             company = self.env.company
         return company.id
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for variables in vals_list:
-            # Si el nro. de doc. ya existe
-            if variables.get('company_type') == 'person':
-                res_partner = self.search([('vat', '=', variables.get('vat')), ('active', '=', True)]).exists()
-                if res_partner:
-                    msg3 = 'Error: Contacto ya existe'
-                    raise ValidationError(msg3)
-            # if not variables.get('l10n_latam_identification_type_id'):
-            #     raise ValidationError('Se necesita un Tipo de Documento, no debe estar vacío')
-            if variables.get('l10n_latam_identification_type_id') == 4 or variables.get('l10n_latam_identification_type_id') == 5:
-                vvat = variables.get('vat')
-                if not vvat.isnumeric():
-                    raise ValidationError('RUC/DNI deben ser solo números')
-            company = self.env.company
-            if not variables.get('l10n_pe_district') and not variables.get('city_id') and variables.get('state_id') == company.partner_id.state_id.id:
-                variables['l10n_pe_district'] = self._search_district()
-                variables['city_id'] = self._search_provincia()
-        return super(ResPartner, self).create(vals_list)
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     for variables in vals_list:
+    #         # Si el nro. de doc. ya existe
+    #         if variables.get('company_type') == 'person':
+    #             res_partner = self.search([('vat', '=', variables.get('vat')), ('active', '=', True)]).exists()
+    #             if res_partner:
+    #                 msg3 = 'Error: Contacto ya existe'
+    #                 raise ValidationError(msg3)
+    #         # if not variables.get('l10n_latam_identification_type_id'):
+    #         #     raise ValidationError('Se necesita un Tipo de Documento, no debe estar vacío')
+    #         if variables.get('l10n_latam_identification_type_id') == 4 or variables.get('l10n_latam_identification_type_id') == 5:
+    #             vvat = variables.get('vat')
+    #             if not vvat.isnumeric():
+    #                 raise ValidationError('RUC/DNI deben ser solo números')
+    #         company = self.env.company
+    #         if not variables.get('l10n_pe_district') and not variables.get('city_id') and variables.get('state_id') == company.partner_id.state_id.id:
+    #             variables['l10n_pe_district'] = self._search_district()
+    #             variables['city_id'] = self._search_provincia()
+    #     return super(ResPartner, self).create(vals_list)
+
+    @api.model
+    def create_from_ui(self, partner):
+        # Si el nro. de doc. ya existe
+        if partner.get('company_type') == 'person':
+            res_partner = self.search([('vat', '=', partner.get('vat')), ('active', '=', True)]).exists()
+            if res_partner:
+                msg3 = 'Error: Contacto ya existe'
+                raise ValidationError(msg3)
+        # if not variables.get('l10n_latam_identification_type_id'):
+        #     raise ValidationError('Se necesita un Tipo de Documento, no debe estar vacío')
+        if partner.get('l10n_latam_identification_type_id') == 4 or partner.get('l10n_latam_identification_type_id') == 5:
+            vvat = partner.get('vat')
+            if not vvat.isnumeric():
+                raise ValidationError('RUC/DNI deben ser solo números')
+        company = self.env.company
+        if not partner.get('l10n_pe_district') and not partner.get('city_id') and partner.get('state_id') == company.partner_id.state_id.id:
+            partner['l10n_pe_district'] = self._search_district()
+            partner['city_id'] = self._search_provincia()
+        return super(ResPartner, self).create_from_ui(partner)
