@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="view_tipo_comprobante_form" model="ir.ui.view">
+        <field name="name">Vista formulario de tipo de comprobante</field>
+        <field name="model">tipo.comprobante</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" attrs="{'invisible': [('active','=',True)]}" />
+                    <div class="oe_title">
+                        <field name="name"/>
+                    </div>
+                    <group>
+                        <field name="titulo_en_documento"/>
+                        <field name="active" invisible="1" />  
+                        <field name="code_api"/>
+                        <field name="es_cpe"/>
+                        <field name="es_nota_credito_debito"/>
+                        <field name="puede_tener_anticipo"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tipo_comprobante_tree" model="ir.ui.view">
+        <field name="name">Vista arbol de tipo de comprobante</field>
+        <field name="model">tipo.comprobante</field>
+        <field name="arch" type="xml">
+            <tree string="Document Type" decoration-muted="(not active)" create="0" edit="0">
+                <field name="name"/>
+                <field name="titulo_en_documento"/>
+                <field name="code_api"/>
+                <field name="es_cpe"/>
+                <field name='es_nota_credito_debito'/>
+                <field name='puede_tener_anticipo'/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+  
+    <record model="ir.actions.act_window" id="action_tipo_comprobante">
+        <field name="name">Tipo de Documento KAF</field>
+        <field name="res_model">tipo.comprobante</field>
+        <field name="domain">['|', ('active', '=', True), ('active', '=', False)]</field>
+        <field name="context">{"search_default_active":1}</field>
+    </record>
+
+    <menuitem action="action_tipo_comprobante" id="menu_tipo_comprobante" sequence="21" parent="account.account_account_menu"/>
+</odoo>

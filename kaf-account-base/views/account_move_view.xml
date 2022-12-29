@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_move_kaf_form">
+        <field name="name">Vista formulario </field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@id='other_tab_entry']" position="after">
+                <page id="sunat_tab_entry" string="Estado CPE" name="state_sunat">
+                    <group>
+                        <group col="2">
+                            <button name="button_generar_json" string="Generar Json" type="object" groups="account.group_account_invoice"
+                            data-hotkey="m" states="posted" attrs="{'disabled': [('stado_envio_sunat','=',True)]}"/>
+                            <button name="button_envio_sunat" string="Envío a Sunat" type="object" groups="account.group_account_invoice"
+                            data-hotkey="n" states="posted" attrs="{'disabled': [('stado_envio_sunat','=',True)]}"/>
+                        </group>
+                        <group>
+                            <field string="Estado CPE" name="stado_envio_sunat" widget="boolean_toggle" readonly="1"></field>
+                        </group>                        
+                    </group>
+                    <group>
+                        <field name="json_api_envio" placeholder="Aqui va el Json de envío" groups="account.group_account_invoice" nolabel="1" type="html" attrs="{'readonly': [('stado_envio_sunat','=',True)]}"/>
+                        <field name="json_api_rspt" placeholder="Aqui va el Json de rspta" readonly="1" groups="account.group_account_invoice" nolabel="1"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//group/div[@name='journal_div']" position="after">
+                <field name="forma_de_pago_pe" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

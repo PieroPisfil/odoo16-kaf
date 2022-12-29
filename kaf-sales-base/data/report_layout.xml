@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--     <data>
+         <record id="report_kaf_ticket_layoutd" model="report.layout">
+            <field name="name">Ticket Cabecera</field>
+            <field name="view_id" ref="kaf-sales-base.kaf_ticket_layoutd"/> Aqui falta modificar
+        </record>
+    </data> -->
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acceso_proforma_settings_usuario,acceso proforma settings usuario,model_report_settings,group_report_usuario,1,1,0,0
+
+acceso_proforma_settings_admin,acceso proforma settings admin,model_report_settings,group_report_admin,1,1,1,1
+
+

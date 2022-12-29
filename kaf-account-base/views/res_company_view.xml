@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_company_form">
+      <field name="name">res.company.form.inherit</field>
+      <field name="model">res.company</field>
+      <field name="inherit_id" ref="base.view_company_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/notebook/page[@id='page_apis']" position="inside">
+            <group string="API de envío de CPE">
+                <group>
+                    <field name="modo_envio_cpe"/>
+                    <field name="usuario_prueba_cpe" attrs="{'invisible': [('modo_envio_cpe', '!=', 'prueba')]}"/>
+                    <field name="password_prueba_cpe" attrs="{'invisible': [('modo_envio_cpe', '!=', 'prueba')]}"/>
+                    <field name="usuario_produccion_cpe" attrs="{'invisible': [('modo_envio_cpe', '!=', 'produccion')]}"/>
+                    <field name="password_produccion_cpe" attrs="{'invisible': [('modo_envio_cpe', '!=', 'produccion')]}"/>
+
+                    <field name="tipo_envio_sunat"/>
+                    <field name="token_api_propio_sunat" attrs="{'invisible': [('tipo_envio_sunat', '!=', 'apipropio')]}"/>
+                    <field name="url_api_propio_sunat" attrs="{'invisible': [('tipo_envio_sunat', '!=', 'apipropio')]}"/>
+                </group>
+            </group>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>

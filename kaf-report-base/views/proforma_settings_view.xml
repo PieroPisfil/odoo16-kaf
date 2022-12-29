@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="view_report_settings" model="ir.ui.view">
+        <field name="name">Vista formulario Reporte configuracion</field>
+        <field name="model">report.settings</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                </group>
+                <group>
+                    <field name="image_header_proforma" widget="image"/>
+                    <field name="image_footer_proforma" widget="image"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>

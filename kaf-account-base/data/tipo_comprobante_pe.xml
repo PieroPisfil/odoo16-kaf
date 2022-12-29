@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+        <record id="factura_1" model="tipo.comprobante">
+			<field name="code_api">001</field>
+			<field name="name">Factura</field>
+			<field name="titulo_en_documento">Factura Electrónica</field>
+			<field name="es_cpe">True</field>
+			<field name="es_nota_credito_debito">False</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="boleta_1" model="tipo.comprobante">
+			<field name="code_api">002</field>
+			<field name="name">Boleta</field>
+			<field name="titulo_en_documento">Boleta de Venta Electrónica</field>
+			<field name="es_cpe">True</field>
+			<field name="es_nota_credito_debito">False</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="nota_credito_1" model="tipo.comprobante">
+			<field name="code_api">003</field>
+			<field name="name">Nota de Crédito</field>
+			<field name="titulo_en_documento">Nota de Crédito</field>
+			<field name="es_cpe">True</field>
+			<field name="es_nota_credito_debito">True</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="nota_debito_1" model="tipo.comprobante">
+			<field name="code_api">004</field>
+			<field name="name">Nota de Débito</field>
+			<field name="titulo_en_documento">Nota de Débito</field>
+			<field name="es_cpe">True</field>
+			<field name="es_nota_credito_debito">True</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="factura_credito_1" model="tipo.comprobante">
+			<field name="code_api">005</field>
+			<field name="name">Factura a Crédito</field>
+			<field name="titulo_en_documento">Factura Elctrónica</field>
+			<field name="es_cpe">True</field>
+			<field name="es_nota_credito_debito">False</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="recibo_caja_1" model="tipo.comprobante">
+			<field name="code_api">RC1</field>
+			<field name="name">Recibo de Caja</field>
+			<field name="titulo_en_documento">Recibo de Caja</field>
+			<field name="es_cpe">False</field>
+			<field name="es_nota_credito_debito">False</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+        <record id="ticket_intercambio_1" model="tipo.comprobante">
+			<field name="code_api">TI1</field>
+			<field name="name">Ticket de Intercambio</field>
+			<field name="titulo_en_documento">Ticket</field>
+			<field name="es_cpe">False</field>
+			<field name="es_nota_credito_debito">False</field>
+            <field name="puede_tener_anticipo">False</field>
+		</record>
+    </data>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SetMetodoPagoButton" owl="1">
+        <div class="control-button o_metodo_pago_button">
+            <i class="fa fa-money" role="img" aria-label="Seleccionar método de pago"
+               title="Seleccionar método de pago" />
+            <t t-esc='currentMetodoPagoName' />
+        </div>
+    </t>
+
+</templates>
