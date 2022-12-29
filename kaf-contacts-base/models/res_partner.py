@@ -78,10 +78,10 @@ class ResPartner(models.Model):
 
     zip = fields.Char(related='l10n_pe_district.code', store=True)
     # Verificamos que no haya doscontactos con el mismo dni, ruc o pasaporte
-    _sql_constraints = [
-        ('unique_vat', 'unique(vat, active, name, street)',
-         'Error: El usuario ya está registrado, (tal vez en otra compañía, verificarlo y hacerlo multicompañía)')
-    ]
+    # _sql_constraints = [
+    #     ('unique_vat', 'unique(vat, active, name, street)',
+    #      'Error: El usuario ya está registrado, (tal vez en otra compañía, verificarlo y hacerlo multicompañía)')
+    # ]
 
     @api.onchange('company_type')
     def _on_change_estado(self):
@@ -381,43 +381,38 @@ class ResPartner(models.Model):
             company = self.env.company
         return company.id
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     for variables in vals_list:
-    #         # Si el nro. de doc. ya existe
-    #         if variables.get('company_type') == 'person':
-    #             res_partner = self.search([('vat', '=', variables.get('vat')), ('active', '=', True)]).exists()
-    #             if res_partner:
-    #                 msg3 = 'Error: Contacto ya existe'
-    #                 raise ValidationError(msg3)
-    #         # if not variables.get('l10n_latam_identification_type_id'):
-    #         #     raise ValidationError('Se necesita un Tipo de Documento, no debe estar vacío')
-    #         if variables.get('l10n_latam_identification_type_id') == 4 or variables.get('l10n_latam_identification_type_id') == 5:
-    #             vvat = variables.get('vat')
-    #             if not vvat.isnumeric():
-    #                 raise ValidationError('RUC/DNI deben ser solo números')
-    #         company = self.env.company
-    #         if not variables.get('l10n_pe_district') and not variables.get('city_id') and variables.get('state_id') == company.partner_id.state_id.id:
-    #             variables['l10n_pe_district'] = self._search_district()
-    #             variables['city_id'] = self._search_provincia()
-    #     return super(ResPartner, self).create(vals_list)
-
     @api.model
     def create_from_ui(self, partner):
-        # Si el nro. de doc. ya existe
-        if partner.get('company_type') == 'person':
-            res_partner = self.search([('vat', '=', partner.get('vat')), ('active', '=', True)]).exists()
-            if res_partner:
-                msg3 = 'Error: Contacto ya existe'
-                raise ValidationError(msg3)
-        # if not variables.get('l10n_latam_identification_type_id'):
-        #     raise ValidationError('Se necesita un Tipo de Documento, no debe estar vacío')
+
+        ##################### Codigo modificado ##################################################
         if partner.get('l10n_latam_identification_type_id') == 4 or partner.get('l10n_latam_identification_type_id') == 5:
             vvat = partner.get('vat')
             if not vvat.isnumeric():
                 raise ValidationError('RUC/DNI deben ser solo números')
-        company = self.env.company
-        if not partner.get('l10n_pe_district') and not partner.get('city_id') and partner.get('state_id') == company.partner_id.state_id.id:
-            partner['l10n_pe_district'] = self._search_district()
-            partner['city_id'] = self._search_provincia()
-        return super(ResPartner, self).create_from_ui(partner)
+        ############################################################################################
+
+        """ create or modify a partner from the point of sale ui.
+            partner contains the partner's fields. """
+        # image is a dataurl, get the data after the comma
+        if partner.get('image_1920'):
+            partner['image_1920'] = partner['image_1920'].split(',')[1]
+        partner_id = partner.pop('id', False)
+        if partner_id:  # Modifying existing partner
+            self.browse(partner_id).write(partner)
+        else:
+        ##################### Codigo modificado ##################################################
+            # Si el nro. de doc. ya existe
+            res_partner = self.search([('vat', '=', partner.get('vat')), ('active', '=', True)]).exists()
+            if res_partner:
+                msg3 = 'Error: Contacto ya existe'
+                raise ValidationError(msg3)
+            
+            company = self.env.company
+            if not partner.get('l10n_pe_district') and not partner.get('city_id') and partner.get('state_id') == company.partner_id.state_id.id:
+                partner['l10n_pe_district'] = self._search_district()
+                partner['city_id'] = self._search_provincia()
+        ############################################################################################
+            partner_id = self.create(partner).id
+        return partner_id
+
+        

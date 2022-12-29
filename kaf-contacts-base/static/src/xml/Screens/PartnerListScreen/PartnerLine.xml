@@ -43,7 +43,9 @@
                 </td>
                 <td class="partner-line-balance" t-if="props.isBalanceDisplayed"></td>
                 <td>
-                    <button class="edit-partner-button" t-on-click.stop="() => props.onClickEdit(props.partner)">DETAILS</button>
+                    <button class="edit-partner-button" t-on-click.stop="() => props.onClickEdit(props.partner)" t-on-click="_clickEditPersonalizado">
+                        DETAILS
+                    </button>
                 </td>
                 <td class="partner-line-last-column-placeholder oe_invisible"></td>
             </tr>

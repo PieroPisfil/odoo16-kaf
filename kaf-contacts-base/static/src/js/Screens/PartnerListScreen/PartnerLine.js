@@ -7,11 +7,10 @@ odoo.define('kaf-contacts-base.PartnerLine', function(require) {
     const PartnerLineKaf = PartnerLine => 
         class extends PartnerLine {
             _clickEditPersonalizado() {
-                $('#edit-client-button').click()
                 setTimeout(() => {
                     // $('#boton-guardar-reemplazo').attr('hidden', true)
                     // $('#boton-guardar-original').attr('hidden', false)
-                    $('.client-name').attr('readonly', true)
+                    $('.partner-name').attr('readonly', true)
                     $('#vat').attr('readonly', true)
                     $("select[name='l10n_latam_identification_type_id']").attr('disabled', true) 
                     $("select[name='country_id']").attr('disabled', true)

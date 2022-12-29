@@ -9,7 +9,7 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
     const PartnerDetailsEditVat = PartnerDetailsEdit =>
         class extends PartnerDetailsEdit {
             setup() {
-	            super.setup();
+	            super.setup(...arguments);
 				this.intFields = ['country_id', 'state_id', 'property_product_pricelist','l10n_latam_identification_type_id','city_id','l10n_pe_district'];
 				const partner = this.props.partner;
 				this.changes = {
@@ -21,14 +21,9 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 				};
 				if (!partner.property_product_pricelist)
 					this.changes['property_product_pricelist'] = this.env.pos.default_pricelist.id;
-
+					
 				onMounted(() => {
 					this.iniciarDatos_vat_pe();
-					this.env.bus.on('save-partner', this, this.saveChanges);
-				});
-	
-				onWillUnmount(() => {
-					this.env.bus.off('save-partner', this);
 				});
 	        }
 
@@ -324,6 +319,7 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 					self.changes['vat'] = respuesta.vat;
 					self._changeVat();
 					if (tipo_doc === 'RUC') {
+						self._changeTypeIdentification();
 						if (respuesta.zip){
 							contents.find('input[name="zip"]').val(respuesta.zip);
 							self.changes['zip'] = respuesta.zip;
