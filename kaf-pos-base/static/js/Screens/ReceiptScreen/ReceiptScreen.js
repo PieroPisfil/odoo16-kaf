@@ -1,21 +1,15 @@
 odoo.define('kaf-pos-base.ReceiptScreen', function (require) {
     'use strict';
     const ReceiptScreen = require('point_of_sale.ReceiptScreen');
-    const { OrderReceipt } = require('point_of_sale.OrderReceipt');
     const Registries = require('point_of_sale.Registries');
     const models = require('point_of_sale.models');
-    const { useRef, useContext } = owl.hooks;
-    const { Printer } = require('point_of_sale.Printer');
 
     const ReceiptScreenKaf = ReceiptScreen => 
         class extends ReceiptScreen  {
-            constructor() {
-                super(...arguments);
+            setup() {
+                super.setup();
                 this._state = this.env.pos.TICKET_SCREEN_STATE;
                 this.id_order = false;
-            }
-            mounted() {
-                super.mounted();
             }
 
             async buttonImg() {

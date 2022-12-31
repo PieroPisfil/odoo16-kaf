@@ -6,10 +6,10 @@
                 <i class="fa fa-paper-plane" aria-hidden="true"/>
             </button>
         </xpath>
-        <xpath expr="//div[hasclass('pos-receipt-container')]" position="replace">
+        <!-- <xpath expr="//div[hasclass('pos-receipt-container')]" position="replace">
             <div class="pos-receipt-container">
                 <OrderReceipt order="currentOrder" t-ref="order-receipt" />
             </div>
-        </xpath>
+        </xpath> -->
     </t>
 </templates>

@@ -50,11 +50,11 @@ class PosOrder(models.Model):
         return res
     
     invoice_sequence_number = fields.Integer(string='Secuencia de números de factura', readonly=True, copy=False)
-    invoice_journal = fields.Many2one('account.journal', string='Diario de facturas de ventas',   states={'draft': [('readonly', False)]}, readonly=True, domain="[('type', 'in', ['sale'])]", copy=True)
+    invoice_journal = fields.Many2one('account.journal', string='Diario de facturas de ventas',   states={'draft': [('readonly', False)]}, readonly=True, domain="[('type', 'in', ['sale'])]", copy=False)
     invoice_journal_name = fields.Char(string='Nombre de diario', related='invoice_journal.tipo_comprobante.titulo_en_documento')
     numero_doc_relacionado = fields.Char(string='Doc. Relacionado', related='account_move.name', readonly=True, copy=False)
     date_invoice = fields.Date("Fecha de la factura")
-    forma_de_pago_pe = fields.Char(string="Forma de pago")
+    forma_de_pago_pe = fields.Char(string="Forma de pago", readonly=True)
     amount_text = fields.Char(related='account_move.amount_text', readonly=True, copy=False)
     sunat_qr_code_char = fields.Char(related="account_move.sunat_qr_code_char", readonly=True, copy=False)
 

@@ -22,8 +22,17 @@
     ],
     'assets': {
         'point_of_sale.assets': [
+            'kaf-pos-base/static/js/models.js',
             'kaf-pos-base/static/js/Chrome.js',
             'kaf-pos-base/static/xml/Chrome.xml',
+            'kaf-pos-base/static/js/Screens/ProductScreen/ControlButton/SetMetodoPagoButton.js',
+            'kaf-pos-base/static/xml/Screens/ProductScreen/ControlButton/SetMetodoPagoButton.xml',
+            'kaf-pos-base/static/js/Screens/PaymentScreen/PaymentScreen.js',
+            'kaf-pos-base/static/xml/Screens/PaymentScreen/PaymentScreen.xml',
+            'kaf-pos-base/static/js/Screens/ReceiptScreen/ReceiptScreen.js',
+            'kaf-pos-base/static/xml/Screens/ReceiptScreen/ReceiptScreen.xml',
+            'kaf-pos-base/static/js/Screens/ReceiptScreen/OrderReceipt.js',
+            'kaf-pos-base/static/xml/Screens/ReceiptScreen/OrderReceipt.xml',
             'kaf-pos-base/static/lib/**/*',
             'kaf-pos-base/static/css/**/*',
             # 'kaf-pos-base/static/js/Screens/**/*',
