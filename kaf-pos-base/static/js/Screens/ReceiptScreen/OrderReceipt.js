@@ -6,7 +6,7 @@ odoo.define('kaf-pos-base.OrderReceipt', function(require) {
 
     const OrderReceiptCPE = OrderReceipt =>
         class extends OrderReceipt {
-	        get order() {
+	        get currentOrder() {
 	            return this.receiptEnv.order;
 	        }
         };

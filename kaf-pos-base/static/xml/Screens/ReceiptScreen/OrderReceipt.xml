@@ -42,7 +42,7 @@
                             <div><t t-esc="receipt.company.website" /></div>
                         </t>
                         <t t-if="receipt.header_html">
-                            <t t-raw="receipt.header_html" />
+                            <t t-out="receipt.header_html" />
                         </t>
                         <t t-if="!receipt.header_html and receipt.header">
                             <div style="white-space:pre-line"><t t-esc="receipt.header" /></div>
@@ -64,8 +64,8 @@
                             <t t-esc="receipt.invoice.invoice_journal_name"/> 
                         </t>
                         <br/>
-                        <t t-if="order.get_invoice_number()">
-                            <t t-esc="order.get_invoice_number()"/>
+                        <t t-if="currentOrder.get_invoice_number()">
+                            <t t-esc="currentOrder.get_invoice_number()"/>
                         </t>
                     </h3>
                 </div>
@@ -171,10 +171,10 @@
                     <span t-esc='env.pos.format_currency(receipt.total_rounded)' class="pos-receipt-right-align"/>
                 </div>
                 <br/>
-                <t t-if="order.get_amount_text()">
+                <t t-if="currentOrder.get_amount_text()">
                     <div style="font-size: 0.9rem" >
                         SON:
-                        <span t-esc="order.get_amount_text() || ''" /> 
+                        <span t-esc="currentOrder.get_amount_text() || ''" /> 
                     </div>
                 </t>
                 <!-- </t> -->
@@ -198,17 +198,17 @@
                     GRACIAS POR SU COMPRA
                 </div>
                 <!-- QR O CODE BAR -->
-                <t t-if="order.get_qr_code()">
+                <t t-if="currentOrder.get_qr_code()">
                     <div class="qr-code" id="qr-code" style="display: flex; justify-content: center;">
                         <!-- <canvas width="64" height="64" style="display: none;"></canvas> -->
-                        <img alt="Scan me!" style="display: block;" t-att-src='order.get_qr_code()' />
+                        <img alt="Scan me!" style="display: block;" t-att-src='currentOrder.get_qr_code()' />
                     </div>
                 </t>
 
                 <div class="before-footer" />
                  <!-- Footer -->
                 <div t-if="receipt.footer_html"  class="pos-receipt-center-align">
-                    <t t-raw="receipt.footer_html" />
+                    <t t-out="receipt.footer_html" />
                 </div>
 
                 <div t-if="!receipt.footer_html and receipt.footer"  class="pos-receipt-center-align" style="white-space:pre-line">
@@ -223,7 +223,7 @@
                         <t t-if="line.ticket">
                             <br />
                             <div class="pos-payment-terminal-receipt">
-                                <t t-raw="line.ticket" />
+                                <t t-out="line.ticket" />
                             </div>
                         </t>
                     </t>

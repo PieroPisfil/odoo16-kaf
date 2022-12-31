@@ -40,7 +40,7 @@ class PosOrder(models.Model):
         res['forma_de_pago_pe'] = f_pago
         return res
 
-    #esto sirve para guaradar al servidor la factura account.move
+    #esto sirve para guardar al servidor la factura account.move
     def _prepare_invoice_vals(self):
         res = super(PosOrder, self)._prepare_invoice_vals()
         timezone = pytz.timezone(self._context.get('tz') or self.env.user.tz or 'UTC')
