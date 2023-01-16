@@ -54,7 +54,7 @@ class PosSession(models.Model):
         res['search_params']['fields'].append("currency_unit_label")
         return res
 
-    def _loader_params_res_currency(self):
-        res = super(PosSession, self)._loader_params_res_currency()
-        res['search_params']['fields'].append("currency_unit_label")
-        return res
+    # def _loader_params_res_currency(self):
+    #     res = super(PosSession, self)._loader_params_res_currency()
+    #     res['search_params']['fields'].append("currency_unit_label")
+    #     return res

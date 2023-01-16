@@ -65,7 +65,7 @@
                         </t>
                         <br/>
                         <t t-if="currentOrder.get_invoice_number()">
-                            <t t-esc="currentOrder.get_invoice_number()"/>
+                            <t t-esc="currentOrder.get_invoice_number() || false"/>
                         </t>
                     </h3>
                 </div>
@@ -200,7 +200,6 @@
                 <!-- QR O CODE BAR -->
                 <t t-if="currentOrder.get_qr_code()">
                     <div class="qr-code" id="qr-code" style="display: flex; justify-content: center;">
-                        <!-- <canvas width="64" height="64" style="display: none;"></canvas> -->
                         <img alt="Scan me!" style="display: block;" t-att-src='currentOrder.get_qr_code()' />
                     </div>
                 </t>

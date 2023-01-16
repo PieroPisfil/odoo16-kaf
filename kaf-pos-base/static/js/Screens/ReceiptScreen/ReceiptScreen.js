@@ -2,6 +2,7 @@ odoo.define('kaf-pos-base.ReceiptScreen', function (require) {
     'use strict';
     const ReceiptScreen = require('point_of_sale.ReceiptScreen');
     const Registries = require('point_of_sale.Registries');
+    var { Order } = require('point_of_sale.models');
     const models = require('point_of_sale.models');
 
     const ReceiptScreenKaf = ReceiptScreen => 
@@ -36,7 +37,7 @@ odoo.define('kaf-pos-base.ReceiptScreen', function (require) {
                     context: this.env.session.user_context,
                 });
                 fetchedOrders.forEach((order) => {
-                    this._state.syncedOrders.cache[order.id] = new models.Order({}, { pos: this.env.pos, json: order });
+                    this._state.syncedOrders.cache[order.id] = Order.create({}, { pos: this.env.pos, json: order });
                 });
             }
         }

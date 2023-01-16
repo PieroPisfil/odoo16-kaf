@@ -31,12 +31,10 @@ class PosOrder(models.Model):
     def _order_fields(self, ui_order):
         res = super(PosOrder, self)._order_fields(ui_order)
         res['invoice_journal'] = ui_order.get('invoice_journal', False)
-        # _logger.warning('////////******************************////////////// {0}'.format(self.invoice_journal))
         reg_datetime = datetime.now(tz)
         fecha = reg_datetime.strftime("%Y-%m-%d")
         res['date_invoice'] = parse_date(ui_order.get('date_invoice', fecha)).strftime(DATE_FORMAT)
         f_pago = ui_order.get('forma_de_pago_pe', False)
-        #_logger.warning('////////******************************////////////// {0}'.format(f_pago))
         res['forma_de_pago_pe'] = f_pago
         return res
 
@@ -45,7 +43,7 @@ class PosOrder(models.Model):
         res = super(PosOrder, self)._prepare_invoice_vals()
         timezone = pytz.timezone(self._context.get('tz') or self.env.user.tz or 'UTC')
         res['invoice_date'] = self.date_invoice or self.date_order.astimezone(timezone).date()
-        res['journal_id'] = (self.invoice_journal.id or self.session_id.config_id.invoice_journal_id.id)
+        res['journal_id'] = (self.invoice_journal.id or self.session_id.config_id.invoice_journal_id.id) 
         res['forma_de_pago_pe'] = self.forma_de_pago_pe or False
         return res
     

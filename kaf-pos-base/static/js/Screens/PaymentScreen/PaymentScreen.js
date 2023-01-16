@@ -10,6 +10,12 @@ odoo.define('kaf-pos-base.PaymentScreen', function (require) {
                 super.setup();
 				//this.orderReceiptdd = useRef('order-receipt');
 	        }
+            async _finalizeValidation() {
+                await super._finalizeValidation(...arguments);
+                setTimeout(() => {
+                    $('#button-refresh-ticket').click()
+                },300)
+            }
             toggleIsToInvoiceFactura() {
                 // click_invoice
                 this.currentOrder.set_to_invoice_factura(!this.currentOrder.is_to_invoice_factura());

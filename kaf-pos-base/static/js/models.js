@@ -65,36 +65,32 @@ odoo.define('kaf-pos-base.models', function(require) {
     Registries.Model.extend(Orderline, CustomOrderline); 
 
     const CustomOrder = (Order) => class CustomOrder extends Order {
-        constructor() {
+        constructor(obj, options) {
             super(...arguments);
+            options  = options || {};
             //this.pos = options.pos;
-            this.forma_de_pago_pe = this.pos.db.forma_de_pago_pe_alt[0];
+            this.forma_de_pago_pe = this.forma_de_pago_pe ? this.forma_de_pago_pe : this.pos.db.forma_de_pago_pe_alt[0];
             this.to_invoice_factura    = false;
             this.to_invoice_boleta     = false;
             this.to_invoice_recibo     = false;
-            this.invoice_journal = false;
-            this.numero_doc_relacionado = false;
-            this.amount_text = false;
-            this.sunat_qr_code_char = false;
+            this.invoice_journal = this.invoice_journal ? this.invoice_journal : false;
         }
         /**
-         * Initialize PoS order from a JSON string.
-         *
-         * If the order was created in another session, the sequence number should be changed so it doesn't conflict
-         * with orders in the current session.
-         * Else, the sequence number of the session should follow on the sequence number of the loaded order.
-         *
-         * @param {object} json JSON representing one PoS order.
-         */
+        * Initialize PoS order from a JSON string.
+        *
+        * If the order was created in another session, the sequence number should be changed so it doesn't conflict
+        * with orders in the current session.
+        * Else, the sequence number of the session should follow on the sequence number of the loaded order.
+        *
+        * @param {object} json JSON representing one PoS order.
+        */
+        
         init_from_JSON(json) {
-            super.init_from_JSON(json);
+            super.init_from_JSON(...arguments);
             this.invoice_journal_name = json.invoice_journal_name ? json.invoice_journal_name : false;
-            //console.log(this.invoice_journal_name)
             this.numero_doc_relacionado = json.numero_doc_relacionado ? json.numero_doc_relacionado : false;
-            console.log(this.numero_doc_relacionado)
             this.forma_de_pago_pe = this.get_forma_de_pago_pe(json.forma_de_pago_pe) ? this.get_forma_de_pago_pe(json.forma_de_pago_pe) : false;
             this.amount_text = json.amount_text || false
-            console.log(this.amount_text)
             this.sunat_qr_code_char = json.sunat_qr_code_char || false
         }
         set_to_invoice_factura(to_invoice) {
@@ -138,6 +134,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             json['invoice_journal'] = this.invoice_journal[0];
             json['forma_de_pago_pe'] = this.forma_de_pago_pe.code;
             json['date_invoice'] = moment(new Date().getTime()).format('YYYY/MM/DD');
+            console.log(json)
             return json;
         }
 
@@ -146,6 +143,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             var res = super.export_for_printing(...arguments);
             res['invoice'] = {
                 invoice_journal_name: this.get_journal_name(this.invoice_journal[0]) || 'Ticket POS',
+                numero_doc_relacionado: this.numero_doc_relacionado || ":C",
             }
             res['forma_de_pago_pe'] = this.forma_de_pago_pe;
             return res
@@ -161,10 +159,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             return this.pos.db.get_journal_nombre(journal_id);
         }
         get_invoice_number() {
-            if (this.numero_doc_relacionado) {
-                return this.numero_doc_relacionado
-            }
-            return "false"
+            return this.numero_doc_relacionado
         }
         get_forma_de_pago_pe(forma_de_pago_pe_code) {
             var fpagos = this.pos.db.forma_de_pago_pe_alt;
@@ -180,13 +175,12 @@ odoo.define('kaf-pos-base.models', function(require) {
         }
         get_amount_text() {
             if (this.amount_text) {
-                console.log(this.amount_text)
                 return this.amount_text
             }
             return false
         }
         get_qr_code() {
-            var qr_string = this.sunat_qr_code_char;
+            var qr_string = this.sunat_qr_code_char ? this.sunat_qr_code_char : this.name;
             var qrcodesingle = new QRCode(false, {width : 80, height : 80, correctLevel : QRCode.CorrectLevel.Q});
             qrcodesingle.makeCode(qr_string);
             let qrdibujo = qrcodesingle.getDrawing();

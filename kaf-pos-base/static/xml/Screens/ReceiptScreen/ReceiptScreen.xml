@@ -2,8 +2,8 @@
 <templates id="point_of_sale.template" xml:space="preserve">
     <t t-name="ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
         <xpath expr="//form[hasclass('send-email')]" position="after">
-            <button class="send" t-att-class="{ highlight: True }" t-on-click="buttonImg">
-                <i class="fa fa-paper-plane" aria-hidden="true"/>
+            <button t-on-click="buttonImg" id="button-refresh-ticket" invisible="true">
+                <i class="fa fa-refresh" aria-hidden="true"/>
             </button>
         </xpath>
         <!-- <xpath expr="//div[hasclass('pos-receipt-container')]" position="replace">
