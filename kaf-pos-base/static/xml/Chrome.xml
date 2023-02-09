@@ -6,7 +6,7 @@
                 <div class="pos-branding">
                     <t t-if="imageUrl">
                         <img t-if= "!env.isMobile" class="pos-logo" t-on-click="() => this.trigger('toggle-debug-widget')"
-                            t-attf-src="/web/image?model=pos.config&amp;field=image&amp;id={{ env.pos.config.id }}&amp;unique=1" alt="Logo" />
+                            t-attf-src="/web/image?model=pos.config&amp;field=image&amp;id={{ env.pos.config.id }}" alt="Logo" />
                         <CashMoveButton t-if="showCashMoveButton()" />
                         <TicketButton isTicketScreenShown="isTicketScreenShown" />
                     </t>
