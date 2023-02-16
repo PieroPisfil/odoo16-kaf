@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_company_form">
+      <field name="name">res.company.form.inherit</field>
+      <field name="model">res.company</field>
+      <field name="inherit_id" ref="base.view_company_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/notebook/page[@id='page_apis']" position="inside">
+          <group string="API de envío de CPE">
+            <group>
+              <field name="whatsapp_api_url" placeholder="ej. http://api:3333"/>
+              <field name="whatsapp_key" placeholder="ej. 10"/>
+              <field name="whatasapp_token"/>
+              <field name="whatsapp_qr" readonly="1"/>
+            </group>
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

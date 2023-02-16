@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('notice')]" position="before">
+            <form t-on-submit.prevent="onSendWhatsapp" class="send-email">
+                <div class="input-email" >
+                    <input type="tel" placeholder="Phone Whatsapp Receipt" t-model="orderUiState.inputWhatsapp"/>
+                    <button class="send" t-att-class="{ highlight: orderUiState.inputWhatsapp ? true : false }" type="submit">
+                        <i class="fa fa-whatsapp" aria-hidden="true"/>
+                    </button>
+                </div>
+            </form>
+        </xpath>
+    </t>
+
+</templates>

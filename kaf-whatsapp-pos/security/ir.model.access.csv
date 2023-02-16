@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acceso_wa_usuario,acceso wa usuario,model_whatsapp_instancia,group_wa_usuario,1,0,1,0
+
+acceso_wa_admin,acceso wa admin,model_whatsapp_instancia,group_wa_admin,1,1,1,1
+

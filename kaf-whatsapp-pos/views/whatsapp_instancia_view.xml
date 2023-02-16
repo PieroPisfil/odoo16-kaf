@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="view_whatsapp_instancia_form" model="ir.ui.view">
+        <field name="name">Vista formulario instancia wtsp</field>
+        <field name="model">whatsapp.instancia</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Activar" type="object" name="button_activar_instancia_wa" class="oe_highlight"
+                            states="borrador" groups="kaf-whatsapp-pos.group_wa_admin"/>
+                    <button string="Logout" type="object" name="button_logout_instancia_wa" 
+                            states="activa" groups="kaf-whatsapp-pos.group_wa_admin"/>
+                    <button string="Eliminar" type="object" name="button_eliminar_instancia_wa" 
+                            states="logout"/>
+                    <button string="Borrador" type="object" name="button_borrador_instancia_wa" 
+                            states="eliminada"/>
+                    <button string="Obtener info" type="object" name="button_instancia_info" />
+                    <field name="state" widget="statusbar" statusbar_visible="borrador,activa,logout,eliminada" />
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" attrs="{'invisible': [('active','=',True)]}" />
+                    <div class="oe_title">
+                        <div class="o_row">
+                            <field name="state" invisible="1" />  
+                            <field name="active" invisible="1" />  
+                            <h1 style="display: flex;">
+                                <field name="name" placeholder="Modelo de la fotocopiadora" 
+                                    required="1" default_focus="1" style="padding-left: 10px;" 
+                                    class="oe_inline" attrs="{'readonly':[('state','!=','borrador')]}"/>
+                            </h1>
+                        </div>
+                        <div class="o_row">
+                            <field name="numero_telefono" readonly="1"></field>
+                            <field name='company_id'></field>
+                        </div>
+                        <div class="o_row">
+                            <field colspan="2" name='info_instancia_rspta'></field>
+                        </div>
+                        <div class="o_row">
+                            <button string="Listar instancias" type="object" name="button_listar_sesiones" />
+                            <field name='instancias_listadas'></field>
+                        </div>
+                        <div class="o_row">
+                            <button string="Obtener QR" type="object" name="button_obtener_qr" attrs="{'invisible':[('state','not in',['activa'])]}" />
+                            <field colspan="2" name="qr_b64" nolabel="1" placeholder="QR."/>
+                            <!-- <field name="qr_b64" widget='image' class="oe_avatar"></field> -->
+                            <!-- <div class="container">
+                                <field name="image" widget='image' class="oe_avatar"/>
+                            </div> -->
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_whatsapp_instancia_arbol" model="ir.ui.view">
+        <field name="name">Vista arbol instancia wtsp</field>
+        <field name="model">whatsapp.instancia</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="state" optional="show" readonly="1"/>
+                <field name="numero_telefono" optional="show" readonly="1"/>
+                <field name="company_id" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
