@@ -33,9 +33,9 @@ odoo.define('kaf-contacts-base.PartnerDetailsEdit', function(require) {
 		        $('.busqueda-datos').on('click', self._busquedaContacto.bind(self));
 				this.id_pais = this.changes.country_id ? parseInt(this.changes.country_id) : parseInt(this.env.pos.company.country_id)
 				this._hideshowPeru();
-				this.id_departamento = this.changes.state_id;
-				this.id_provincia = this.changes.city_id || false;
-				this.id_distrito = this.changes.l10n_pe_district || false;
+				this.id_departamento = this.changes.state_id || this.env.pos.company.state_id || false;
+				this.id_provincia = this.changes.city_id || this.env.pos.company.city_id || false;
+				this.id_distrito = this.changes.l10n_pe_district || this.env.pos.company.l10n_pe_district || false;
 				this.id_doctype = this.changes.l10n_latam_identification_type_id;
 				this._changeTypeIdentification();
 		        $('.client-address-country').on('change', self._changeCountry.bind(self));
