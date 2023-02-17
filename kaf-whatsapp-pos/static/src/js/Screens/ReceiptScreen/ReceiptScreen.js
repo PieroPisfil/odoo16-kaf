@@ -24,6 +24,7 @@ odoo.define('kaf-whatsapp-pos.ReceiptScreen', function (require) {
             async onSendWhatsapp(){
                 if(!this.orderUiState.inputWhatsapp){return;}
                 let number_phone = this.orderUiState.inputWhatsapp
+                let resultado
                 number_phone = number_phone.split(" ").join("").replace('+','');
                 const regex = /^[0-9]*$/;
                 if(!regex.test(number_phone)){
@@ -31,20 +32,25 @@ odoo.define('kaf-whatsapp-pos.ReceiptScreen', function (require) {
                     this.orderUiState['whatsappNotice'] = this.env._t('Error al enviar, teléfono mal escrito.');
                     return
                 }
-                console.log(number_phone)
+                //console.log(number_phone)
                 try {
                     this.orderUiState['whatsappNotice'] = this.env._t('Enviando...');
-                    await this._sendReceiptToCustomerWhatsapp(number_phone).then(function(resultado) {
-                        console.log(resultado)
-                    })
-                    this.orderUiState['whatsappSuccessful'] = true;
-                    this.orderUiState['whatsappNotice'] = this.env._t('Enviado');
+                    resultado = await this._sendReceiptToCustomerWhatsapp(number_phone)
+                    if(!resultado['error']){
+                        this.orderUiState['whatsappSuccessful'] = true;
+                        this.orderUiState['whatsappNotice'] = this.env._t('Verificar Envío ✅');
+                    }
+                    else{
+                        this.orderUiState['whatsappSuccessful'] = false;
+                        this.orderUiState['whatsappNotice'] = this.env._t(resultado['message']);
+                    }
                 } catch (error) {
                     this.orderUiState['whatsappSuccessful'] = false;
-                    this.orderUiState['whatsappNotice'] = this.env._t('Error al enviar, por favor intente de nuevo.');
+                    this.orderUiState['whatsappNotice'] = this.env._t('Error al enviar, por favor intente de nuevo o verificar configuracion de api.');
                 }
             }
             async _sendReceiptToCustomerWhatsapp(number_phone) {
+                let response
                 const printer = new Printer(null, this.env.pos);
                 const receiptString = this.orderReceipt.el.innerHTML;
                 const ticketImage = await printer.htmlToImg(receiptString);
@@ -53,11 +59,12 @@ odoo.define('kaf-whatsapp-pos.ReceiptScreen', function (require) {
                 const orderName = order.get_name();
                 const orderPartner = { email: this.orderUiState.inputEmail, name: partner ? partner.name : this.orderUiState.inputEmail };
                 const order_server_id = this.env.pos.validated_orders_name_server_id_map[orderName];
-                await this.rpc({
+                response = await this.rpc({
                     model: 'pos.order',
                     method: 'send_ticket_whatsapp',
                     args: [[order_server_id], number_phone, orderName, orderPartner, ticketImage],
                 });
+                return response
             }  
         }
 

@@ -44,10 +44,6 @@
                         <div class="o_row">
                             <button string="Obtener QR" type="object" name="button_obtener_qr" attrs="{'invisible':[('state','not in',['activa'])]}" />
                             <field colspan="2" name="qr_b64" nolabel="1" placeholder="QR."/>
-                            <!-- <field name="qr_b64" widget='image' class="oe_avatar"></field> -->
-                            <!-- <div class="container">
-                                <field name="image" widget='image' class="oe_avatar"/>
-                            </div> -->
                         </div>
                     </div>
                 </sheet>

@@ -10,9 +10,9 @@
           <group string="API de envío de CPE">
             <group>
               <field name="whatsapp_api_url" placeholder="ej. http://api:3333"/>
-              <field name="whatsapp_key" placeholder="ej. 10"/>
-              <field name="whatasapp_token"/>
-              <field name="whatsapp_qr" readonly="1"/>
+              <field name="whatsapp_instancia"/>
+              <field name="whatsapp_key" readonly="1"/>
+              <field name="whatsapp_token"/>
             </group>
           </group>
         </xpath>

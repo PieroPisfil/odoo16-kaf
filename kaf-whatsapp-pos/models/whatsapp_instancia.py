@@ -31,7 +31,7 @@ class WhatsappInstancia(models.Model):
     # image = fields.Binary(string='Image',copy=False,readonly=True)
 
     def button_activar_instancia_wa(self):
-        endpoint = "{0}/instance/init?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatasapp_token)
+        endpoint = "{0}/instance/init?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatsapp_token)
         payload = ""
         headers = {}
         try:
@@ -49,7 +49,7 @@ class WhatsappInstancia(models.Model):
             return None
 
     def button_logout_instancia_wa(self):
-        endpoint = "{0}/instance/logout?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatasapp_token)
+        endpoint = "{0}/instance/logout?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatsapp_token)
         payload = ""
         headers = {}
         try:
@@ -126,7 +126,7 @@ class WhatsappInstancia(models.Model):
             return None
     
     def button_obtener_qr(self):
-        endpoint = "{0}/instance/qr?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatasapp_token)
+        endpoint = "{0}/instance/qr?key={1}&token={2}".format(self.company_id.whatsapp_api_url, self.name, self.company_id.whatsapp_token)
         payload = ""
         headers = {}
         try:

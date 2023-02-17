@@ -5,12 +5,17 @@
         <xpath expr="//div[hasclass('notice')]" position="before">
             <form t-on-submit.prevent="onSendWhatsapp" class="send-email">
                 <div class="input-email" >
-                    <input type="tel" placeholder="Phone Whatsapp Receipt" t-model="orderUiState.inputWhatsapp"/>
+                    <input type="tel" placeholder="Celular: ej. 51958546316" t-model="orderUiState.inputWhatsapp"/>
                     <button class="send" t-att-class="{ highlight: orderUiState.inputWhatsapp ? true : false }" type="submit">
                         <i class="fa fa-whatsapp" aria-hidden="true"/>
                     </button>
                 </div>
             </form>
+            <div class="notice">
+                <div t-if="orderUiState.whatsappSuccessful !== null" t-attf-class="{{ orderUiState.whatsappSuccessful ? 'successful' : 'failed' }}">
+                    <t t-esc="orderUiState.whatsappNotice"></t>
+                </div>
+            </div>
         </xpath>
     </t>
 

@@ -7,6 +7,6 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     whatsapp_api_url = fields.Char(string='URL de app', default='http://api:3333')
-    whatsapp_key = fields.Char(string='Key de app', default='10')
-    whatasapp_token = fields.Char(string='Token de app')
-    whatsapp_qr = fields.Char(string='QR activa')
+    whatsapp_instancia = fields.Many2one('whatsapp.instancia','Instancia de Whatsapp',domain="[('state','=','activa'),('company_id', '=', id)]")
+    whatsapp_key = fields.Integer(string='Key de app', related='whatsapp_instancia.name', copy=False, readonly=True, store=True)
+    whatsapp_token = fields.Char(string='Token de app', copy=False)
