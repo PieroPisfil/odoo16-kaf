@@ -45,8 +45,6 @@
                                     <span><strong>Dirección del cliente:</strong></span>
                                 </div>
                                 <div t-if="o.partner_id" name="partner_header">
-                                    <!-- <div t-field="o.partner_id"
-                                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/> -->
                                     <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/></span>
                                     <span t-if="o.partner_id.l10n_pe_district" t-field="o.partner_id.l10n_pe_district"/>
                                     <span t-if="o.partner_id.city and (o.partner_id.country_id.name != 'Perú')"><t t-esc="o.partner_id.city"/></span>
@@ -54,27 +52,30 @@
                                     <span t-if="o.partner_id.state_id" t-field="o.partner_id.state_id"/>
                                     <span t-if="o.partner_id.country_id" t-field="o.partner_id.country_id"/>
                                     <span t-if="o.partner_id.zip" t-field="o.partner_id.zip"/>
-                                    <p t-if="o.sudo().partner_id.vat"><t t-esc="o.partner_id.l10n_latam_identification_type_id.name or 'RUC/DNI'"/>: <span t-field="o.sudo().partner_id.vat"/></p>
+                                </div>
+                                <div t-if="o.sudo().partner_id.vat">
+                                    <strong><t t-esc="o.partner_id.l10n_latam_identification_type_id.name or 'RUC/DNI'"/>:</strong> 
+                                    <span t-field="o.sudo().partner_id.vat"/>
                                 </div>
                             </div>
                             <!-- <br/> -->
-                            <h3 t-field="o.name" class="mt0 float-left"/>
+                            <h3 t-field="o.name" class="mt0 float-left" style="text-align:center;"/>
                             <div class="row mt48 mb32">
                                 <div t-if="o.origin" class="col-auto" name="div_origin">
-                                    <strong>Orden:</strong>
-                                    <p t-field="o.origin"/>
+                                    <strong>Orden de venta:</strong>
+                                    <span t-field="o.origin"/>
                                 </div>
                                 <div class="col-auto" name="div_state">
                                     <strong>Estado:</strong>
-                                    <p t-field="o.state"/>
+                                    <span t-field="o.state"/>
                                 </div>
                                 <div class="col-auto" name="div_sched_date">
                                     <strong>Fecha prevista:</strong>
-                                    <p t-field="o.scheduled_date"/>
+                                    <span t-field="o.scheduled_date"/>
                                 </div>
                                 <div t-if="o.picking_type_id.code == 'outgoing' and o.carrier_id" class="col-auto">
                                     <strong>Transportador:</strong>
-                                    <p t-field="o.carrier_id"/>
+                                    <span t-field="o.carrier_id"/>
                                 </div>
                                 <div t-if="o.weight" class="col-auto">
                                     <strong>Peso:</strong>
@@ -82,7 +83,13 @@
                                     <span t-field="o.weight"/>
                                     <span t-field="o.weight_uom_name"/>
                                 </div>
+                                <div t-if="o.carrier_tracking_ref" class="col-auto">
+                                    <strong>Tracking Number:</strong>
+                                    <span t-field="o.carrier_tracking_ref"/>
+                                </div>
+                                <t t-set="has_hs_code" t-value="o.move_ids.filtered(lambda l: l.product_id.hs_code)"/>
                             </div>
+                            <br/>
                             <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package">
                                 <t t-set="has_barcode" t-value="any(move_line.product_id and move_line.product_id.sudo().barcode or move_line.package_id for move_line in o.move_line_ids)"/>
                                 <t t-set="has_serial_number" t-value="any(move_line.lot_id or move_line.lot_name for move_line in o.move_line_ids)" groups="stock.group_production_lot"/>
@@ -117,7 +124,7 @@
                                                 <span t-field="ml.product_id.description_picking"/>
                                             </td>
                                             <td>
-                                                <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>
+                                                <span t-if="o.state != 'done'" t-field="ml.reserved_uom_qty"/>
                                                 <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
                                                 <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
                                             </td>
@@ -173,11 +180,12 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <t t-set="no_reserved_product" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty != x.reserved_availability and x.move_line_ids and x.state!='done')"/>
+                            <t t-set="no_reserved_product" t-value="o.move_ids.filtered(lambda x: x.product_uom_qty != x.reserved_availability and x.move_line_ids and x.state!='done')"/>
                             <p t-if="o.state in ['draft', 'waiting', 'confirmed'] or no_reserved_product"><i class="fa fa-exclamation-triangle" />
                                 No se pudieron reservar todos los productos. Haga clic en el botón "Comprobar disponibilidad" para intentar reservar productos.
                             </p>
                             <p t-field="o.note"/>
+                            <br/>
                         </div>
                     </t> 
                 </t>

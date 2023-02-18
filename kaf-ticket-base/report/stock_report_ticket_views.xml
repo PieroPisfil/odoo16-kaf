@@ -58,6 +58,7 @@
                     <div t-if="company.email"><span t-field="company.email"/></div>
                     <div t-if="company.website"><span t-field="company.website"/></div>
                 </div>
+                <hr/>
             </div>
         </template>
     </data>

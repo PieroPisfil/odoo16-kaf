@@ -12,6 +12,7 @@
         'stock',
         'contacts',
         'kaf-ticket-base',
+        'delivery',
         'sale',
         'kaf-contacts-base',
         'web',
