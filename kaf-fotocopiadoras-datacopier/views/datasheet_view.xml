@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="view_datasheet_form" model="ir.ui.view">
+        <field name="name">Vista formulario de datasheet de fotocopiadoras</field>
+        <field name="model">datasheet</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Aprobar" type="object" name="aprobar_datasheet" class="oe_highlight"
+                            states="borrador" groups="modelos-fotocopiadoras.group_datasheet_admin"/>
+                    <button string="Cancelar" type="object" name="cancelar_datasheet" 
+                            states="borrador,aprobado"/>
+                    <field name="state" widget="statusbar" statusbar_visible="borrador,aprobado" />
+                </header>
+                <div class="alert alert-info" role="alert" style="margin-bottom: 0px" 
+                        attrs="{'invisible': [('mns_tipo_color','=',False)]}">
+                    <field name="mns_tipo_color" readonly="1" force_save="1"/>
+                </div>
+
+                <sheet>
+                    <!--  <center>
+                        <h1 style="color: red; background-color: blue">
+                            Título
+                        </h1>
+                    </center> --> 
+                    <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" attrs="{'invisible': [('active','=',True)]}" />
+                    <field name="image_1920" widget="image" class="oe_avatar" 
+                           options="{'preview_image':'image_128', 'size':['',128]}" />
+                    
+                    <div class="oe_title">
+                        <div class="o_row">
+                            <field name="active" invisible="1" />  
+                            <h1 style="display: flex;">
+                                <field name="copy_brand" options="{'no_create':True, 'no_open':True}"
+                                    required="1" class="oe_inline" />
+                                <span class="fa fa-circle" 
+                                attrs="{'invisible': [('copy_brand','=',False), ('name','=',False)]}" 
+                                style="font-size: 8px; padding: 5px 5px;" />
+                                <field name="name" placeholder="Modelo de la fotocopiadora" 
+                                    required="1" default_focus="1" style="padding-left: 10px;" 
+                                    class="oe_inline" attrs="{'readonly':[('state','=','aprobado')]}"/>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="tipo_funcion" class="oe_inline" required="1" />
+                            <br/>
+                            <field name="tipo_color" class="oe_inline" required="1" />
+                        </h2>    
+                    </div>
+                    <div>
+                        <field name="porcentaje" widget="percentpie" string=" " 
+                            style="padding-left: 10px;" class="oe_inline"/>
+                        <field name="porcentaje_value" string=" " placeholder="Porcentaje"
+                                class="oe_edit_only oe_inline"/>
+                    </div>
+
+                    <group string="Tamaños máximos de papel" style="margin-top: -5px;" >
+                        <group attrs="{'invisible': [('tipo_funcion','=','only-printer-laser')]}">
+                            <field name="paper_format_luna" />
+                            <field name="paper_format_adf" />
+                        </group>
+                        <group>
+                            <field name="paper_format_bandeja" />
+                            <field name="paper_format_bypass" />
+                        </group>
+                    </group>
+                    <group string="Datos Principales" style="margin-top: -5px;" >
+                        <group>
+                            <field name="copy_speed" />
+                        </group>
+                    </group>
+                    <group string="Datos Principales" style="margin-top: -10px;" >
+                        <group>
+                            <field name="printer_speed" />
+                        </group>
+                        <group>
+                            <field name="printer_max_resolution" />
+                        </group>
+                    </group>
+                    <group string="Datos Principales" style="margin-top: -10px;" >
+                        <group>
+                            <field name="scan_max_speed_byn" />   
+                            <field name="scan_max_speed_color" />  
+                        </group>
+                        <group> 
+                            <field name="scan_max_resolution" />   
+                            <field name="scan_duplex_scan" />                  
+                        </group>
+                    </group>
+
+                    <div>
+                        <group string="Toner Compatibles"></group>
+                        <field name="product_toner_compatible" />
+                    </div>
+
+                    <group string="Archivos">
+                        <field name="tiene_brochure" widget="boolean_toggle" />
+                        <field name="brochure_file" filename="brochure_filename" attrs="{'invisible': [('tiene_brochure','=',False)]}" />
+                        <field name="brochure_filename" invisible="1" />
+                        <field name="link_brochure" widget="url"/>
+                    </group>
+
+                    <group>
+                        <field name="fch_aprobado" readonly="1" />
+                    </group>
+
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_datasheet_tree" model="ir.ui.view">
+        <field name="name">Vista Lista Datasheet</field>
+        <field name="model">datasheet</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="state == 'cancelado'" decoration-success="state == 'aprobado'" >
+                <field name="name"/>
+                <field name="copy_brand"/>
+                <field name="tipo_funcion"/>
+                <field name="tipo_color"/>
+                <field name="state" widget="badge" decoration-success="state == 'aprobado'" decoration-danger="state == 'cancelado'"/>
+                <!-- <field name="porcentaje" sum="importe_total"/> -->
+            </tree>
+
+            <!-- decoration-bf: negrita -->
+            <!-- decoration-it: cursiva -->
+            <!-- decoration-danger: color-rojo -->
+            <!-- decoration-info: color azul claro -->
+            <!-- decoration-muted: color gris claro -->
+            <!-- decoration-succes: color verde -->
+            <!-- decoration-warning: color mostaza -->
+
+        </field>
+    </record>
+
+    <record id="view_datasheet_kanban" model="ir.ui.view">
+        <field name="name">Vista Kanban Datasheet</field>
+        <field name="model">datasheet</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('datasheet', 'image_128', record.id.raw_value)" class="o_image_64_contain" />
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="copy_brand"/>
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <field name="tipo_funcion"/>
+                                </div>
+                                <div>
+                                    <field name="tipo_color"/>
+                                </div>                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_open_archivo_venta" model="ir.actions.act_window">
+        <field name="name">Archivos de ventas</field>
+        <field name="res_model">archivo.venta</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_open_datasheet" model="ir.actions.act_window">
+        <field name="name">Hoja de datos</field>
+        <field name="res_model">datasheet</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record id="action_open_copier_brand" model="ir.actions.act_window">
+        <field name="name">Marcas de Copiadoras</field>
+        <field name="res_model">copier.brand</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record id="action_open_config_1" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'kaf-fotocopiadoras-datacopier', 'bin_size': False}</field>
+    </record>
+
+<!--  menu principal -->
+    <menuitem id="menu_principal" name="Fotocopiadoras" />
+    <!-- submenu1 -->
+    <menuitem id="menu_horizontal_ventas" name ="Ventas" parent="menu_principal" sequence="1"/>
+        <!-- -->
+        <menuitem id="menu_vertical_archivos_ventas" name="Archivo de venta" parent="menu_horizontal_ventas" action="action_open_archivo_venta" />
+    <!-- submenu2 -->
+    <menuitem id="menu_horizontal_1" name ="Mis Modelos" parent="menu_principal" sequence="10"/>
+        <!-- -->
+        <menuitem id="menu_vertical_datasheet" name="Hojas de Datos" parent="menu_horizontal_1" action="action_open_datasheet" />
+        <menuitem id="menu_vertical_copier_brand" name="Marcas de Foto." parent="menu_horizontal_1" action="action_open_copier_brand" />
+    <!-- submenu3 -->
+    <menuitem id="menu_horizontal_2" name="Configuration" parent="menu_principal" sequence="99"/>
+        <!--  -->
+        <menuitem id="menu_vertical_config_1" name="Settings" parent="menu_horizontal_2" action="action_open_config_1" groups="base.group_system"/>
+</odoo>

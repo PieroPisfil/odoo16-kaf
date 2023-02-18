@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="view_archivo_venta_tree" model="ir.ui.view">
+        <field name="name">Vista Arbol Archivo Venta</field>
+        <field name="model">archivo.venta</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id_principal"/>
+                <field name="fotocopiadora_id"/>
+                <field name="fch_aprobado" widget="date"/>
+                <field name="state" widget="badge" decoration-danger="state == 'desechado'" decoration-muted="state == 'borrador'" decoration-info="state == 'proforma'" decoration-success="state == 'venta'"/>
+            </tree>
+
+            <!-- decoration-bf: negrita -->
+            <!-- decoration-it: cursiva -->
+            <!-- decoration-danger: color-rojo -->
+            <!-- decoration-info: color azul claro -->
+            <!-- decoration-muted: color gris claro -->
+            <!-- decoration-succes: color verde -->
+            <!-- decoration-warning: color mostaza -->
+
+        </field>
+    </record>
+    <record id="view_archivo_venta_form" model="ir.ui.view">
+        <field name="name">Vista formulario Archivo Venta</field>
+        <field name="model">archivo.venta</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- <button string="Aprobar" type="object" name="aprobar_datasheet" class="oe_highlight"
+                            states="borrador" groups="modelos-fotocopiadoras.group_datasheet_admin"/>
+                    <button string="Cancelar" type="object" name="cancelar_datasheet" 
+                            states="borrador,aprobado"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="borrador,proforma,venta" />
+                </header>
+                <sheet>
+                    <field name="active" invisible="1" /> 
+                    <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" attrs="{'invisible': [('active','=',True)]}" />
+                    <div class="oe_title">
+                        <div class="o_row">
+                            <h1 style="display: flex;">
+                                <field name="name" placeholder="Nombre de Proforma" style="padding-left: 10px;" 
+                                class="oe_inline" readonly="1"/>
+                            </h1>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id_principal" default_focus="1"/>
+                            <field name="partner_ids_secundarios" />
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="fch_aprobado"/>
+                        </group>
+                    </group>
+                    <field name="fotocopiadora_id"/>
+                    <field name="suministros_id"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

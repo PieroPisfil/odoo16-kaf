@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acceso_datasheet_usuario,acceso datasheet usuario,model_datasheet,group_datasheet_usuario,1,1,1,1
+acceso_copier_brand_usuario,acceso copier brand usuario,model_copier_brand,group_datasheet_usuario,1,1,1,1
+
+acceso_datasheet_admin,acceso datasheet admin,model_datasheet,group_datasheet_admin,1,1,1,1
+acceso_copier_brand_admin,acceso copier brand admin,model_copier_brand,group_datasheet_admin,1,1,1,1
+
