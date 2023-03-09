@@ -154,7 +154,7 @@
                     </div>
                 </t>
 
-                <div>OP. GRAVADAS<span t-esc="env.pos.format_currency(receipt.total_without_tax)" class="pos-receipt-right-align"/></div>
+                <div style="font-size: 1.0rem">OP. GRAVADAS<span t-esc="env.pos.format_currency(receipt.total_without_tax)" class="pos-receipt-right-align"/></div>
                 <!-- <t t-if="isTaxIncluded"> -->
                 <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
                     <div style="font-size: 0.9rem">
