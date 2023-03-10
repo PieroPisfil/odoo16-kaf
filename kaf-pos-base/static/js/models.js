@@ -89,6 +89,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             super.init_from_JSON(...arguments);
             this.invoice_journal_name = json.invoice_journal_name ? json.invoice_journal_name : false;
             this.numero_doc_relacionado = json.numero_doc_relacionado ? json.numero_doc_relacionado : false;
+            this.see_taxes = json.see_taxes ? json.see_taxes : true;
             this.forma_de_pago_pe = this.get_forma_de_pago_pe(json.forma_de_pago_pe) ? this.get_forma_de_pago_pe(json.forma_de_pago_pe) : false;
             this.amount_text = json.amount_text || false
             this.sunat_qr_code_char = json.sunat_qr_code_char || false
@@ -143,7 +144,8 @@ odoo.define('kaf-pos-base.models', function(require) {
             var res = super.export_for_printing(...arguments);
             res['invoice'] = {
                 invoice_journal_name: this.get_journal_name(this.invoice_journal[0]) || 'Ticket POS',
-                numero_doc_relacionado: this.numero_doc_relacionado || ":C",
+                numero_doc_relacionado: this.numero_doc_relacionado || "********",
+                see_taxes: true,
             }
             res['forma_de_pago_pe'] = this.forma_de_pago_pe;
             return res
