@@ -89,7 +89,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             super.init_from_JSON(...arguments);
             this.invoice_journal_name = json.invoice_journal_name ? json.invoice_journal_name : false;
             this.numero_doc_relacionado = json.numero_doc_relacionado ? json.numero_doc_relacionado : false;
-            this.see_taxes = json.see_taxes ? json.see_taxes : true;
+            this.see_taxes = json.see_taxes ? json.see_taxes : false;
             this.forma_de_pago_pe = this.get_forma_de_pago_pe(json.forma_de_pago_pe) ? this.get_forma_de_pago_pe(json.forma_de_pago_pe) : false;
             this.amount_text = json.amount_text || false
             this.sunat_qr_code_char = json.sunat_qr_code_char || false
@@ -135,7 +135,6 @@ odoo.define('kaf-pos-base.models', function(require) {
             json['invoice_journal'] = this.invoice_journal[0];
             json['forma_de_pago_pe'] = this.forma_de_pago_pe.code;
             json['date_invoice'] = moment(new Date().getTime()).format('YYYY/MM/DD');
-            console.log(json)
             return json;
         }
 
@@ -145,12 +144,20 @@ odoo.define('kaf-pos-base.models', function(require) {
             res['invoice'] = {
                 invoice_journal_name: this.get_journal_name(this.invoice_journal[0]) || 'Ticket POS',
                 numero_doc_relacionado: this.numero_doc_relacionado || "********",
-                see_taxes: true,
+                see_taxes: this.get_see_taxes(this.numero_doc_relacionado) || false,
             }
             res['forma_de_pago_pe'] = this.forma_de_pago_pe;
+            console.log(res)
             return res
         }
-
+        get_see_taxes(numero_doc_relacionado) {
+            if(numero_doc_relacionado){            
+                if(numero_doc_relacionado.includes('B',0) || numero_doc_relacionado.includes('F',0)){
+                    return true
+                }
+            }
+            return false
+        }
         get_journal_name(journal_id){
             if (this.invoice_journal_name) {
                 return this.invoice_journal_name
