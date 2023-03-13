@@ -2,7 +2,7 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
-        <xpath expr="//div[hasclass('js_invoice')]" position="before">
+        <xpath expr="//div[hasclass('js_invoice')]" position="replace">
             <div t-if="env.pos.config.invoice_journal_factura_id &amp;&amp; (currentOrder.forma_de_pago_pe.code === 'contado')" class="button js_invoice"
                 t-att-class="{ highlight: currentOrder.is_to_invoice_factura() }"
                 t-on-click="toggleIsToInvoiceFactura">

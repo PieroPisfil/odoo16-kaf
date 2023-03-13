@@ -17,10 +17,10 @@ odoo.define('kaf-pos-base.ReceiptScreen', function (require) {
                 var ordder = this.currentOrder
                 this.id_order = ordder.pos.validated_orders_name_server_id_map[ordder.name]
                 var response2 = await this.order_two()
-                //console.log(response2['numero_doc_relacionado'])
                 this.currentOrder.numero_doc_relacionado = response2['numero_doc_relacionado']
                 this.currentOrder.amount_text = response2['amount_text']
                 this.currentOrder.sunat_qr_code_char = response2['sunat_qr_code_char']
+                this.currentOrder.date_invoice = response2['date_invoice']
                 this.render();
             }
 

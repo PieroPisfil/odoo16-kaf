@@ -10,6 +10,7 @@
                 <xpath expr="//field[@name='fiscal_position_id']" position="after">
 			    	<field name="invoice_journal"/>
 					<field name="numero_doc_relacionado" />
+					<field name="date_invoice"/>
 					<field name="forma_de_pago_pe" />
 			    </xpath>
 

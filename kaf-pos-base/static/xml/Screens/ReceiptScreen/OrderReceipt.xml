@@ -78,10 +78,10 @@
                     <hr/> -->
                     
                     <t t-if="receipt.date.localestring">
-                        <div>Fecha de Emisión: <t t-esc="receipt.date.localestring"/> </div>
+                        <div>Fecha creación: <t t-esc="receipt.date.localestring"/> </div>
                     </t> 
                     <t t-else="">
-                        <div>Fecha de Emisión: <t t-esc="receipt.date.validation_date" /></div>
+                        <div>Fecha creación: <t t-esc="receipt.date.validation_date" /></div>
                     </t>                      
                     <t t-if='receipt.forma_de_pago_pe'>
                         <div>Forma de Pago: <t t-esc="receipt.forma_de_pago_pe.name || receipt.forma_de_pago_pe" /></div> 
@@ -89,6 +89,9 @@
                     <t t-if='receipt.currency'>
                         <div>Moneda: <t t-esc="receipt.currency.currency_unit_label"/></div> 
                     </t>
+                    <t t-if="currentOrder.get_date_invoice()">
+                        <div>Fecha emisión: <t t-esc="currentOrder.get_date_invoice()"/> </div>
+                    </t> 
                     <!-- <hr/> -->
                 </div>
 
@@ -195,16 +198,18 @@
                 </div>
                 <br/>
 
-                <div style="text-align:center;">
-                    GRACIAS POR SU COMPRA
-                </div>
-                <!-- QR O CODE BAR -->
-                <t t-if="currentOrder.get_qr_code()">
-                    <div class="qr-code" id="qr-code" style="display: flex; justify-content: center;">
-                        <img alt="Scan me!" style="display: block;" t-att-src='currentOrder.get_qr_code()' />
+                <t t-if="receipt.invoice.see_taxes">
+                    <div style="text-align:center;">
+                        GRACIAS POR SU COMPRA
                     </div>
+                    <!-- QR O CODE BAR -->
+                    <t t-if="currentOrder.get_qr_code()">
+                        <div class="qr-code" id="qr-code" style="display: flex; justify-content: center;">
+                            <img alt="Scan me!" style="display: block;" t-att-src='currentOrder.get_qr_code()' />
+                        </div>
+                    </t>
                 </t>
-
+                
                 <div class="before-footer" />
                  <!-- Footer -->
                 <div t-if="receipt.footer_html"  class="pos-receipt-center-align">

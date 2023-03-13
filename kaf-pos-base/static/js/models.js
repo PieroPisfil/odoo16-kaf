@@ -90,6 +90,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             this.invoice_journal_name = json.invoice_journal_name ? json.invoice_journal_name : false;
             this.numero_doc_relacionado = json.numero_doc_relacionado ? json.numero_doc_relacionado : false;
             this.see_taxes = json.see_taxes ? json.see_taxes : false;
+            this.date_invoice = json.date_invoice ? json.date_invoice : false;
             this.forma_de_pago_pe = this.get_forma_de_pago_pe(json.forma_de_pago_pe) ? this.get_forma_de_pago_pe(json.forma_de_pago_pe) : false;
             this.amount_text = json.amount_text || false
             this.sunat_qr_code_char = json.sunat_qr_code_char || false
@@ -134,7 +135,7 @@ odoo.define('kaf-pos-base.models', function(require) {
             var json = super.export_as_JSON(...arguments);
             json['invoice_journal'] = this.invoice_journal[0];
             json['forma_de_pago_pe'] = this.forma_de_pago_pe.code;
-            json['date_invoice'] = moment(new Date().getTime()).format('YYYY/MM/DD');
+            //json['date_invoice'] = moment(new Date().getTime()).format('YYYY/MM/DD');
             return json;
         }
 
@@ -147,10 +148,17 @@ odoo.define('kaf-pos-base.models', function(require) {
                 see_taxes: this.get_see_taxes(this.numero_doc_relacionado) || false,
             }
             res['forma_de_pago_pe'] = this.forma_de_pago_pe;
+            res['date_invoice'] = this.get_date_invoice();
             console.log(res)
             return res
         }
+        get_date_invoice(){
+            return this.date_invoice;
+        }
         get_see_taxes(numero_doc_relacionado) {
+            if(this.to_invoice_boleta || this.to_invoice_factura){
+                return true
+            }
             if(numero_doc_relacionado){            
                 if(numero_doc_relacionado.includes('B',0) || numero_doc_relacionado.includes('F',0)){
                     return true
