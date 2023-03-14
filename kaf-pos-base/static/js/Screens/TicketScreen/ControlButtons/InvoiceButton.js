@@ -41,18 +41,39 @@ odoo.define('kaf-pos-base.InvoiceButton', function (require) {
                         kwargs: { context: this.env.session.user_context },
                     });
                 }
-
+                
                 // Part 2: Invoice the order.
-                const { confirmed: confirmedPopup } = await this.showPopup('ConfirmPopup', {
-                    title: this.env._t('Necesita Diario de facturación'),
-                    body: this.env._t('Porseguir a elegir el diario de facturación'),
-                });
-                if (!confirmedPopup) return;
-
-                // const { confirmed: confirmedTempScreen } = await this.showTempScreen(
-                //         'SetMetodoPagoButton'
-                //     );
-                // if (!confirmedTempScreen) return;
+                const diariosList = [];
+                if (this.env.pos.config.invoice_journal_factura_id){
+                    diariosList.push({
+                        id: 1,
+                        label: "FacturaCPE",
+                        item: this.env.pos.config.invoice_journal_factura_id,
+                    });
+                }
+                if (this.env.pos.config.invoice_journal_boleta_id){
+                    diariosList.push({
+                        id: 2,
+                        label: "BoletaCPE",
+                        item: this.env.pos.config.invoice_journal_boleta_id,
+                    });
+                }
+                if (this.env.pos.config.invoice_journal_recibo_venta_id){
+                    diariosList.push({
+                        id: 3,
+                        label: "Recibo de Caja",
+                        item: this.env.pos.config.invoice_journal_recibo_venta_id,
+                    });
+                }
+                const { confirmed: confirmed2, payload: selectedJournalInvoice } = await this.showPopup(
+                    'ConfirmSelectPopup',{
+                        confirmText: this.env._t('Select'),
+                        cancelText: this.env._t('Exit'),
+                        title: this.env._t('Diario de facturación?'),
+                        body: this.env._t('Seleccionar el diario de facturación'),
+                        list: diariosList,
+                    })
+                if (!confirmed2) return;
                 
                 await this.rpc(
                     {
